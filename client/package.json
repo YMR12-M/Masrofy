@@ -1,0 +1,27 @@
+{
+  "name": "@masrofy/client",
+  "version": "1.0.0",
+  "private": true,
+  "description": "مصروفي — واجهة الويب (React + Vite)",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 4190",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@fontsource-variable/readex-pro": "^5.3.0",
+    "@tanstack/react-query": "^5.104.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^7.18.4"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^7.0.1",
+    "@vitejs/plugin-react": "^4.7.0",
+    "jsdom": "^29.1.1",
+    "vite": "^6.4.3",
+    "vitest": "^3.2.7"
+  }
+}

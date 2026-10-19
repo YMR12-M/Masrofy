@@ -1,0 +1,97 @@
+/* ═══════════════════════════════════════════════════════════════
+   الرموز (Design Tokens) — المصدر الوحيد للألوان والمقاسات.
+
+   الهوية: «دفتر البيت». ورق دافئ فاتح، أخضر عميق للفلوس، وثلاثة ألوان
+   دلالية ثابتة في كل الشاشات: الدخل أخضر، المصروف أحمر طوبي، التحويل أزرق.
+   لا تكتب لونًا مباشرة في مكوّن — أضفه هنا لو لزم، بالوضعين الفاتح والداكن.
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  --font: 'Readex Pro Variable', 'Segoe UI', Tahoma, system-ui, sans-serif;
+
+  /* الأسطح */
+  --bg: #f5f3ee;
+  --surface: #ffffff;
+  --surface-2: #faf8f4;
+  --surface-3: #eeebe4;
+  --border: #e4e0d7;
+  --border-strong: #cdc8bc;
+
+  /* النص */
+  --text: #18211e;
+  --text-muted: #55615c;
+  --text-faint: #7d8782;
+
+  /* العلامة */
+  --primary: #0d6b57;
+  --primary-hover: #0a5747;
+  --primary-soft: #e2f0eb;
+  --on-primary: #ffffff;
+  --accent: #f2c14e; /* عملة ذهبية في الشعار ولوحة العلامة فقط */
+  --brand-deep: #0b4f41; /* لوحة العلامة في شاشات الدخول: ثابتة في الوضعين، والنص عليها أبيض */
+
+  /* الدلالات */
+  --income: #0f7a52;
+  --income-soft: #e1f3e9;
+  --expense: #b3372b;
+  --expense-soft: #fbe8e5;
+  --transfer: #3554a5;
+  --transfer-soft: #e7ecfa;
+  --warning: #8f5506;
+  --warning-soft: #fcf0d9;
+  --danger: #b42318;
+  --danger-soft: #fdeceb;
+
+  /* المقاسات */
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 18px;
+  --gap: 16px;
+  --sidebar-w: 252px;
+  --topbar-h: 64px;
+  --content-max: 1120px;
+
+  --shadow-sm: 0 1px 2px rgb(24 33 30 / 6%);
+  --shadow: 0 1px 3px rgb(24 33 30 / 7%), 0 6px 16px rgb(24 33 30 / 5%);
+  --shadow-lg: 0 18px 48px rgb(24 33 30 / 18%);
+  --ring: 0 0 0 3px rgb(13 107 87 / 28%);
+
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  --bg: #0e1412;
+  --surface: #151d1a;
+  --surface-2: #19231f;
+  --surface-3: #202c27;
+  --border: #27342f;
+  --border-strong: #36463f;
+
+  --text: #e7eeea;
+  --text-muted: #a5b3ad;
+  --text-faint: #7f8f88;
+
+  --primary: #45c29b;
+  --primary-hover: #63d1ae;
+  --primary-soft: #15302a;
+  --on-primary: #05201a;
+  --brand-deep: #0a3d33;
+
+  --income: #52d19f;
+  --income-soft: #132f26;
+  --expense: #ff8d7f;
+  --expense-soft: #3a1f1b;
+  --transfer: #93abff;
+  --transfer-soft: #1d2541;
+  --warning: #f2b552;
+  --warning-soft: #33280f;
+  --danger: #ff7d70;
+  --danger-soft: #3b1c19;
+
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 30%);
+  --shadow: 0 1px 3px rgb(0 0 0 / 35%), 0 8px 20px rgb(0 0 0 / 25%);
+  --shadow-lg: 0 18px 48px rgb(0 0 0 / 55%);
+  --ring: 0 0 0 3px rgb(69 194 155 / 35%);
+  color-scheme: dark;
+}

@@ -1,0 +1,19 @@
+# اعتماديات ومخرجات بناء
+node_modules/
+dist/
+build/
+coverage/
+.vite/
+*.tsbuildinfo
+
+# أسرار وإعدادات محلية (القالب .env.example هو الوحيد المتتبَّع)
+.env
+.env.*
+!.env.example
+
+# سجلات وملفات النظام والمحرّرات
+*.log
+npm-debug.log*
+.DS_Store
+.idea/
+.vscode/
