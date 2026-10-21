@@ -11,7 +11,7 @@
 }
 .btn:active:not(:disabled) { transform: scale(0.97); }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-.btn.primary { background: var(--primary); color: var(--on-primary); box-shadow: 0 1px 2px rgb(15 59 45 / 18%); }
+.btn.primary { background: var(--primary); color: var(--on-primary); box-shadow: 0 1px 2px rgb(22 35 61 / 18%); }
 .btn.primary:hover:not(:disabled) { background: var(--primary-hover); }
 .btn.secondary { background: var(--surface); border-color: var(--border-strong); color: var(--text); }
 .btn.secondary:hover:not(:disabled) { background: var(--surface-2); border-color: var(--text-faint); }
@@ -64,7 +64,7 @@ kbd {
 .ltr-input { direction: ltr; text-align: end; }
 .select {
   appearance: none; padding-inline-end: 36px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235d6d65' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235b6577' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   background-repeat: no-repeat; background-position: left 12px center;
 }
 
@@ -83,6 +83,47 @@ kbd {
 .search-input { position: relative; }
 .search-input svg { position: absolute; inset-inline-start: 12px; top: 50%; transform: translateY(-50%); color: var(--text-faint); pointer-events: none; }
 .search-input .input { padding-inline-start: 40px; }
+
+/* عنوان مجموعة حقول (التكرار، النهاية…): نفس شكل تسمية الحقل */
+.group-label { font-size: var(--fs-sm); font-weight: 500; color: var(--text); }
+.bare-fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+
+/* اختيار بمربّعات (نوع الحساب): راديو عادي بس كل اختيار بأيقونته */
+.choice-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.choice {
+  position: relative; display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 8px 12px;
+  border: 1px solid var(--border-strong); border-radius: var(--radius-sm); background: var(--surface);
+  font-size: var(--fs-sm); font-weight: 500; line-height: 1.3; cursor: pointer;
+  transition: border-color 0.15s var(--ease), background-color 0.15s var(--ease);
+}
+.choice input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
+.choice svg { flex: none; color: var(--text-faint); }
+.choice:hover { border-color: var(--text-faint); }
+.choice:has(input:checked) { border-color: var(--primary); background: var(--primary-soft); color: var(--text); }
+.choice:has(input:checked) svg { color: var(--primary); }
+.choice:has(input:focus-visible) { outline: 2px solid var(--focus); outline-offset: 2px; }
+.choice:has(input:disabled) { opacity: 0.55; cursor: not-allowed; }
+@media (max-width: 640px) { .choice-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* معاينة صغيرة في أول النموذج: علامة الحساب أو أيقونة التصنيف زي ما هتظهر في القوائم */
+.form-preview {
+  display: flex; align-items: center; gap: 12px; padding: 10px 12px;
+  border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface-2);
+}
+.form-preview .title { font-weight: 600; }
+.form-preview .meta { font-size: var(--fs-xs); color: var(--text-faint); }
+
+/* لوح رقم على أرضية فاتحة (معاينة التقسيط، ملخّص الخطّة): نفس شكل فئة الورقة بس مش لوحة */
+.figure-panel {
+  display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 10px 20px;
+  padding: 14px 16px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface-2);
+}
+.figure-panel .label { display: block; margin-bottom: 6px; font-size: var(--fs-xs); color: var(--text-muted); font-weight: 500; }
+.figure-panel .side { display: flex; flex-direction: column; gap: 2px; font-size: var(--fs-xs); color: var(--text-muted); text-align: end; }
+.figure-panel .side b { color: var(--text); font-weight: 600; }
+/* نسخة فيها أكتر من سطر (الرقم، الشريط، التفاصيل) فوق بعض */
+.figure-panel.stacked { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+.figure-panel.stacked > .row { align-items: flex-end; }
 
 .check { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
 .check input { width: 18px; height: 18px; accent-color: var(--primary); }
@@ -154,6 +195,10 @@ kbd {
 .card > .card-body:first-child { padding-top: 20px; }
 .card > .card-body.flush:first-child { padding-top: 0; }
 .card-foot { padding: 12px 20px; border-top: 1px solid var(--border); }
+/* ذيل بطاقة فيها نموذج: الزرار في آخر السطر زي ذيل النافذة */
+.card-foot:has(> .form-actions) { background: var(--surface-2); border-end-start-radius: var(--radius); border-end-end-radius: var(--radius); }
+.form-actions { display: flex; align-items: center; justify-content: flex-end; gap: 10px; flex-wrap: wrap; }
+.form-actions .note { margin-inline-end: auto; font-size: var(--fs-xs); color: var(--text-faint); }
 
 /* رابط «الكل» في رأس البطاقة */
 .card-link {
@@ -310,7 +355,7 @@ kbd {
 /* علامة الحساب الثابتة: مربّع بلون الحساب وأيقونة نوعه — نفس الشكل في كل مكان */
 .acc-mark {
   width: 40px; height: 40px; flex: none; border-radius: 12px; display: grid; place-items: center;
-  background: var(--acc, #0e6a4c); color: #fff;
+  background: var(--acc, #24478f); color: #fff;
 }
 .acc-mark.sm { width: 32px; height: 32px; border-radius: 10px; }
 
@@ -369,6 +414,8 @@ kbd {
 .empty .actions { margin-top: 8px; }
 
 .loading { display: grid; place-items: center; min-height: 40vh; color: var(--primary); }
+/* البيانات القديمة ظاهرة لحد ما الصفحة الجديدة توصل */
+.is-fetching { opacity: 0.55; transition: opacity 0.2s var(--ease); pointer-events: none; }
 
 .skeleton {
   border-radius: var(--radius-sm);
@@ -378,7 +425,9 @@ kbd {
 @keyframes shimmer { to { background-position: -200% 0; } }
 
 /* ── التبويبات ───────────────────────────────────────────── */
-.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border); overflow-x: auto; }
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border); overflow-x: auto; scrollbar-width: none; }
+/* الشريط بيتمرّر بالسحب؛ شريط التمرير نفسه كان بيظهر كخط جنب أول تبويب */
+.tabs::-webkit-scrollbar { display: none; }
 .tab {
   border: 0; background: transparent; padding: 10px 14px; cursor: pointer;
   color: var(--text-muted); font-weight: 500; border-bottom: 2px solid transparent; margin-bottom: -1px;
@@ -418,7 +467,7 @@ button.list-item:active, a.list-item:active { background: var(--surface-3); }
 /* ── النوافذ ─────────────────────────────────────────────── */
 .overlay {
   position: fixed; inset: 0; z-index: 50; display: grid; place-items: center;
-  padding: 16px; background: rgb(6 20 15 / 50%); animation: fade-in 0.18s var(--ease);
+  padding: 16px; background: var(--scrim); animation: fade-in 0.18s var(--ease);
 }
 .modal {
   width: min(540px, 100%); max-height: calc(100dvh - 32px); display: flex; flex-direction: column;
@@ -451,7 +500,7 @@ button.list-item:active, a.list-item:active { background: var(--surface-3); }
 }
 @keyframes sheet-up { from { transform: translateY(100%); } }
 
-.drawer-backdrop { position: fixed; inset: 0; z-index: 40; background: rgb(6 20 15 / 50%); animation: fade-in 0.18s; }
+.drawer-backdrop { position: fixed; inset: 0; z-index: 40; background: var(--scrim); animation: fade-in 0.18s; }
 .drawer {
   position: fixed; inset-block: 0; inset-inline-start: 0; z-index: 41; width: min(300px, 86vw);
   background: var(--ink); box-shadow: var(--shadow-lg); animation: slide-in 0.3s var(--ease);

@@ -144,6 +144,17 @@ describe('الحسابات الخاصّة والأدوار', () => {
     assert.equal((await owner.api.del(`/transactions/${transfer.id}`)).status, 403);
   });
 
+  test('تحويل بين جيبين خاصّين لا يظهر لأحد غير صاحبهما — ولا بالرابط المباشر', async () => {
+    const first = await makeAccount(member.api, { name: 'جيب سري 1', scope: 'private', opening_balance_minor: 10_000 });
+    const second = await makeAccount(member.api, { name: 'جيب سري 2', scope: 'private' });
+    const transfer = await mustRecord(member.api, { type: 'transfer', account_id: first.id, to_account_id: second.id, amount_minor: 500, payee: 'تحويل سري' });
+
+    assert.equal((await owner.api.get(`/transactions/${transfer.id}`)).status, 404);
+    assert.equal((await owner.api.get('/transactions', { q: 'تحويل سري' })).body.meta.total, 0);
+    assert.equal((await owner.api.del(`/transactions/${transfer.id}`)).status, 404);
+    expectStatus(await member.api.get(`/transactions/${transfer.id}`), 200);
+  });
+
   test('القائمة لا تكشف عمليات جيب الابن للأسرة', async () => {
     await mustRecord(child.api, { type: 'expense', account_id: pocket.id, category_id: food.id, amount_minor: 1_500, payee: 'كانتين المدرسة' });
     const ownerList = (await owner.api.get('/transactions', { q: 'كانتين' })).body;

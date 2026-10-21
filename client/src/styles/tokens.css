@@ -1,11 +1,11 @@
 /* ═══════════════════════════════════════════════════════════════
    الرموز (Design Tokens) — المصدر الوحيد للألوان والمقاسات.
 
-   الهوية: «البنكنوت». أخضر الحبر البارز (intaglio) للهيكل ولوحة الشهر،
-   أرضية فاتحة بلون الطباعة الخلفية للورقة (أخضر رمادي بارد، مش كريمي)،
+   الهوية: «البنكنوت». حبر كحلي بارز (intaglio) للهيكل ولوحة كل شاشة،
+   زي دفتر الشيكات، على أرضية ورق بارد رمادي مائل للأزرق (مش كريمي)،
    والذهبي من العملة في اللوجو هو المعدن الوحيد: زرار الإضافة، خيط الأمان،
    وقوس المصروف في الوردة. الدلالات ثابتة في كل الشاشات: الدخل أخضر،
-   المصروف بنّي طوبي (لون ورقة الخمسين)، التحويل نيلي (ورقة المية).
+   المصروف بنّي طوبي، التحويل بنفسجي (بعيد عن كحلي الأزرار).
    لا تكتب لونًا مباشرة في مكوّن — أضفه هنا بالوضعين الفاتح والداكن.
    ═══════════════════════════════════════════════════════════════ */
 
@@ -24,48 +24,48 @@
   --fs-3xl: 2.25rem;   /* 36 — رقم اللوحة على الموبايل */
   --fs-4xl: 3.25rem;   /* 52 — رقم اللوحة (فئة الورقة) */
 
-  /* الأسطح */
-  --bg: #ecf0eb;
-  --surface: #fbfcfa;
-  --surface-2: #f3f6f2;
-  --surface-3: #e3e9e3;
-  --border: #d8e0d9;
-  --border-strong: #b9c7bd;
+  /* الأسطح: ورق بارد مائل للرمادي الأزرق، مش أبيض ناصع ولا كريمي */
+  --bg: #edf0f3;
+  --surface: #fbfcfd;
+  --surface-2: #f3f5f8;
+  --surface-3: #e3e8ee;
+  --border: #d7dde6;
+  --border-strong: #b6c0cf;
 
-  /* النص */
-  --text: #13221c;
-  --text-muted: #4a5c54;
-  --text-faint: #5d6d65;
+  /* النص: حبر أسود مائل للكحلي */
+  --text: #141b26;
+  --text-muted: #4a5568;
+  --text-faint: #5b6577;
 
-  /* الحبر: الشريط الجانبي ولوحة الشهر — غامق في الوضعين */
-  --ink: #0f3b2d;
-  --ink-2: #16503d;
-  --ink-line: rgb(238 245 239 / 14%);
-  --on-ink: #eef5ef;
-  --on-ink-muted: #a6c2b4;
+  /* الحبر: الشريط الجانبي واللوحات — كحلي غامق في الوضعين */
+  --ink: #16233d;
+  --ink-2: #1f3254;
+  --ink-line: rgb(238 242 248 / 14%);
+  --on-ink: #eef2f8;
+  --on-ink-muted: #a9b6cc;
 
   /* العلامة */
-  --primary: #0e6a4c;
-  --primary-hover: #0b5a40;
-  --primary-soft: #dcebe2;
-  --on-primary: #f6fbf8;
+  --primary: #24478f;
+  --primary-hover: #1d3a78;
+  --primary-soft: #e0e8f6;
+  --on-primary: #f5f8fd;
   --gold: #c9973a;        /* معدن: أسطح وخطوط، مش نص صغير */
   --gold-bright: #e2bb55; /* الذهبي فوق الحبر */
   --gold-text: #87621a;   /* لو لازم نص ذهبي على أرضية فاتحة */
   --gold-soft: #f4e7c6;
 
   /* الدلالات */
-  --income: #0f7a4f;
+  --income: #1d7a4e;
   --income-soft: #ddefe4;
   --expense: #a33b27;
   --expense-soft: #f6e2dc;
-  --transfer: #2f4d8c;
-  --transfer-soft: #e2e8f5;
+  --transfer: #65408f;
+  --transfer-soft: #ece4f5;
   --warning: #835600;
   --warning-soft: #f7ecd2;
   --danger: #b02a1c;
   --danger-soft: #f9e2df;
-  /* الدلالات فوق الحبر الأخضر (اللوحة) — نفس القيمة في الوضعين */
+  /* الدلالات فوق الحبر الكحلي (اللوحة) — نفس القيمة في الوضعين */
   --expense-on-ink: #ff9d86;
   --income-on-ink: #7ee0b1;
 
@@ -79,11 +79,13 @@
   --tabbar-h: 64px;
   --content-max: 1160px;
 
-  /* الظلال مصبوغة بالأخضر، مش أسود */
-  --shadow-sm: 0 1px 2px rgb(15 59 45 / 7%);
-  --shadow: 0 1px 2px rgb(15 59 45 / 6%), 0 8px 24px -8px rgb(15 59 45 / 14%);
-  --shadow-lg: 0 24px 56px -12px rgb(15 59 45 / 28%);
-  --focus: #0e6a4c;
+  /* الظلال مصبوغة بالكحلي، مش أسود */
+  --shadow-sm: 0 1px 2px rgb(22 35 61 / 7%);
+  --shadow: 0 1px 2px rgb(22 35 61 / 6%), 0 8px 24px -8px rgb(22 35 61 / 14%);
+  --shadow-lg: 0 24px 56px -12px rgb(22 35 61 / 28%);
+  --focus: #24478f;
+  /* لون أطراف النوافذ والشريط السفلي */
+  --scrim: rgb(9 15 30 / 50%);
 
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
@@ -94,38 +96,39 @@
 }
 
 :root[data-theme='dark'] {
-  --bg: #0b1310;
-  --surface: #111c17;
-  --surface-2: #15221c;
-  --surface-3: #1c2c25;
-  --border: #22352c;
-  --border-strong: #334b40;
+  /* الداكن رمادي غامق محايد، مش أسود مصبوغ: الكحلي للهيكل واللوحات بس */
+  --bg: #0f1217;
+  --surface: #161a21;
+  --surface-2: #1a1f27;
+  --surface-3: #232a35;
+  --border: #283040;
+  --border-strong: #3a4558;
 
-  --text: #e6efe9;
-  --text-muted: #a4b8ad;
-  --text-faint: #869b90;
+  --text: #e7ebf2;
+  --text-muted: #a8b2c3;
+  --text-faint: #8d98ab;
 
-  --ink: #0c2c21;
-  --ink-2: #134031;
-  --ink-line: rgb(233 243 236 / 12%);
-  --on-ink: #e9f3ec;
-  --on-ink-muted: #9dbcae;
+  --ink: #14223d;
+  --ink-2: #1c2e50;
+  --ink-line: rgb(231 236 245 / 12%);
+  --on-ink: #edf1f8;
+  --on-ink-muted: #a3b1c9;
 
-  --primary: #4cc496;
-  --primary-hover: #6ad3a9;
-  --primary-soft: #143428;
-  --on-primary: #04201a;
+  --primary: #93b2ec;
+  --primary-hover: #abc3f1;
+  --primary-soft: #1b2a46;
+  --on-primary: #0b1630;
   --gold: #d6aa45;
   --gold-bright: #ecc865;
   --gold-text: #ddb453;
   --gold-soft: #33290f;
 
-  --income: #5bd3a0;
-  --income-soft: #12301f;
+  --income: #6fcf9f;
+  --income-soft: #13301f;
   --expense: #f39a83;
   --expense-soft: #3a211b;
-  --transfer: #a3b8ff;
-  --transfer-soft: #1c2542;
+  --transfer: #c4a8ec;
+  --transfer-soft: #2a1f3d;
   --warning: #f0b84f;
   --warning-soft: #33280f;
   --danger: #ff8577;
@@ -136,6 +139,7 @@
   --shadow-sm: 0 1px 2px rgb(0 0 0 / 30%);
   --shadow: 0 1px 2px rgb(0 0 0 / 30%), 0 10px 28px -10px rgb(0 0 0 / 50%);
   --shadow-lg: 0 24px 56px -12px rgb(0 0 0 / 65%);
-  --focus: #6ad3a9;
+  --focus: #abc3f1;
+  --scrim: rgb(3 6 12 / 62%);
   color-scheme: dark;
 }

@@ -57,10 +57,38 @@
 
 .change { display: inline-flex; align-items: center; gap: 4px; }
 
-/* ── شجرة التصنيفات ──────────────────────────────────────── */
-.cat-children { border-inline-start: 1px solid var(--border-strong); margin-inline-start: 39px; }
-.cat-children .list-item { padding-inline-start: 16px; }
-.cat-row.archived { opacity: 0.6; }
+/* ── شجرة التصنيفات: بطاقة لكل تصنيف رئيسي وفروعه، في أعمدة ── */
+.cat-groups { columns: 3 300px; column-gap: var(--gap); }
+.cat-group { break-inside: avoid; margin-bottom: var(--gap); }
+.cat-group .card-head { padding: 14px 16px; }
+.cat-group .card-head .title { font-weight: 600; font-size: var(--fs-md); }
+.cat-group .card-head .meta { font-size: var(--fs-xs); color: var(--text-faint); }
+.cat-group.archived .card-head { opacity: 0.6; }
+.cat-children { border-top: 1px solid var(--border); }
+.cat-children .list-item { min-height: 52px; padding: 8px 16px; padding-inline-start: 22px; }
+.cat-row.archived > :not(.dropdown) { opacity: 0.6; }
+.cat-group .card-foot { padding: 6px 10px; }
+
+/* ── الإعدادات: عنوان القسم وشرحه جنب البطاقة ─────────────── */
+.settings { display: flex; flex-direction: column; gap: 22px; }
+.settings-section { display: grid; grid-template-columns: minmax(0, 16rem) minmax(0, 1fr); gap: 12px 32px; align-items: start; }
+.settings-section + .settings-section { padding-top: 22px; border-top: 1px solid var(--border); }
+.settings-intro h2 { font-size: var(--fs-lg); }
+.settings-intro p { margin-top: 4px; font-size: var(--fs-sm); color: var(--text-muted); max-width: 40ch; }
+@media (max-width: 900px) {
+  .settings-section { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ── الأسرة: دليل الأدوار ────────────────────────────────── */
+.role-list { display: grid; gap: 14px; margin: 0; }
+.role-list > div { display: grid; gap: 4px; justify-items: start; }
+.role-list dd { margin: 0; font-size: var(--fs-sm); color: var(--text-muted); }
+.privacy-line { display: flex; gap: 8px; align-items: flex-start; padding-top: 14px; border-top: 1px solid var(--border); font-size: var(--fs-sm); color: var(--text); }
+.privacy-line svg { flex: none; margin-top: 2px; color: var(--primary); }
+
+/* ── شاشات الدخول: حالة «اتبعت» و«الرابط ناقص» ─────────────── */
+.auth-state { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+.auth-state .empty-emblem { margin-bottom: 0; }
 
 /* ── الفلاتر ─────────────────────────────────────────────── */
 .toolbar { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
@@ -73,3 +101,47 @@
   .toolbar .segmented button { flex: 1; justify-content: center; }
 }
 .totals-line { display: flex; gap: 6px 20px; flex-wrap: wrap; font-size: var(--fs-sm); color: var(--text-muted); }
+
+/* ── الفواتير والأقساط ───────────────────────────────────── */
+/* صفّ المعاد: أيقونة · الاسم والمعاد · المبلغ · «دفعت» (وعلى الموبايل الأزرار تنزل تحت) */
+.bill-row {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; align-items: center; gap: 6px 12px;
+  padding: 12px 20px; min-height: 60px; border-bottom: 1px solid var(--border);
+}
+.bill-row:last-child { border-bottom: 0; }
+.bill-row .title { font-weight: 500; }
+.bill-row.done { opacity: 0.7; }
+.bill-meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: var(--fs-xs); color: var(--text-faint); min-width: 0; }
+.bill-amount { font-weight: 600; white-space: nowrap; }
+.bill-actions { display: flex; align-items: center; gap: 4px; }
+.list-group-head.danger { color: var(--danger); background: var(--danger-soft); }
+/* البطاقة الضيّقة (الموبايل، أو العمود الجانبي في الرئيسية): الاسم والمعاد بعرض الصفّ،
+   والمبلغ والأزرار في سطر تحتهم. على عرض البطاقة نفسها، مش الشاشة */
+.card { container-type: inline-size; }
+@container (max-width: 520px) {
+  .bill-row { grid-template-columns: auto minmax(0, 1fr) auto; padding: 12px 16px; }
+  .bill-row > :first-child { align-self: start; }
+  .bill-row > :nth-child(2) { grid-column: 2 / -1; }
+  .bill-row .bill-amount { grid-column: 2; grid-row: 2; justify-self: start; }
+  .bill-row .bill-actions { grid-column: 3; grid-row: 2; }
+}
+
+/* رقم القسط في جدول التقسيط */
+.bill-row .seq {
+  width: 32px; height: 32px; border-radius: 10px; display: grid; place-items: center; flex: none;
+  background: var(--surface-3); color: var(--text-muted); font-weight: 600; font-size: var(--fs-sm);
+}
+.bill-row.done .seq { background: var(--income-soft); color: var(--income); }
+.schedule { overflow: hidden; }
+
+.list-item.ended { opacity: 0.6; }
+
+.plans-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--gap); }
+.plan-card {
+  display: flex; flex-direction: column; gap: 12px; padding: 18px 20px; width: 100%;
+  text-align: start; cursor: pointer; color: inherit; font: inherit;
+  transition: border-color 0.18s var(--ease), box-shadow 0.18s var(--ease);
+}
+.plan-card:hover { border-color: var(--border-strong); box-shadow: var(--shadow); }
+.plan-card.done { opacity: 0.75; }
+.plan-next { padding-top: 10px; border-top: 1px dashed var(--border); }

@@ -3,7 +3,7 @@ import { useLocalStorage } from '../lib/hooks.js';
 
 const ThemeContext = createContext(null);
 
-const THEME_COLORS = { light: '#ecf0eb', dark: '#0b1310' };
+const THEME_COLORS = { light: '#edf0f3', dark: '#0f1217' };
 
 /** 'light' | 'dark' | 'auto' (يتبع إعداد الجهاز) — تفضيل شخصي لكل جهاز */
 export function ThemeProvider({ children }) {

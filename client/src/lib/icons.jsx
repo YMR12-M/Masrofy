@@ -81,23 +81,23 @@ export function Icon({ name, size = 20, strokeWidth = 1.8, style, className }) {
 
 /**
  * الشعار: محفظة بعملة دهب مسكوكة (حلقة محفورة جوّه العملة).
- * لون المربّع من `--logo-bg` (فوق الحبر الأخضر بيبقى درجة أفتح عشان يبان).
+ * لون المربّع من `--logo-bg` (فوق الحبر الكحلي بيبقى درجة أفتح عشان يبان).
  */
 export function Logo({ size = 36 }) {
   return (
     <svg width={size} height={size} viewBox="0 0 40 40" aria-hidden="true" focusable="false">
-      <rect width="40" height="40" rx="11" fill="var(--logo-bg, #0f3b2d)" />
-      <rect x="2.5" y="2.5" width="35" height="35" rx="9" fill="none" stroke="#eef5ef" strokeOpacity="0.16" />
+      <rect width="40" height="40" rx="11" fill="var(--logo-bg, #16233d)" />
+      <rect x="2.5" y="2.5" width="35" height="35" rx="9" fill="none" stroke="#eef2f8" strokeOpacity="0.16" />
       <path
         d="M27 11H12a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h16a3 3 0 0 0 3-3v-9a3 3 0 0 0-3-3H12"
         fill="none"
-        stroke="#eef5ef"
+        stroke="#eef2f8"
         strokeWidth="2.2"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <circle cx="25" cy="21.5" r="3.6" fill="#e2bb55" />
-      <circle cx="25" cy="21.5" r="2.2" fill="none" stroke="#0f3b2d" strokeOpacity="0.45" strokeWidth="0.8" />
+      <circle cx="25" cy="21.5" r="2.2" fill="none" stroke="#16233d" strokeOpacity="0.45" strokeWidth="0.8" />
     </svg>
   );
 }

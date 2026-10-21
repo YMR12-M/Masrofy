@@ -87,6 +87,13 @@ if (isTest && !String(dbName).endsWith('_test')) {
   problems.push(`قاعدة الاختبارات يجب أن ينتهي اسمها بـ _test (الحالية: ${dbName}) — الاختبارات تمسح بياناتها`);
 }
 
+// التسجيل التلقائي للفواتير: شغّال افتراضيًّا، ومقفول دائمًا في الاختبارات (تستدعي الدالة بنفسها)
+const autoPostEnabled = !isTest && bool('AUTO_POST_ENABLED', true);
+const autoPostMinutes = num('AUTO_POST_INTERVAL_MINUTES', 60);
+if (autoPostEnabled && !(autoPostMinutes >= 1)) {
+  problems.push(`AUTO_POST_INTERVAL_MINUTES لازم دقيقة أو أكتر (الحالية: ${autoPostMinutes})`);
+}
+
 const smtpHost = read('SMTP_HOST', '');
 const mailDisabled = bool('MAIL_DISABLED', false);
 if (isProd && !smtpHost && !mailDisabled) {
@@ -143,6 +150,11 @@ export const env = {
   },
 
   signupEnabled: bool('ALLOW_SIGNUP', true),
+
+  autoPost: {
+    enabled: autoPostEnabled,
+    intervalMinutes: autoPostMinutes,
+  },
 };
 
 if (problems.length > 0) {

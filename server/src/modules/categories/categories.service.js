@@ -112,8 +112,10 @@ export const categoriesService = {
     const usage = await queryOne(
       `SELECT (SELECT COUNT(*) FROM transactions WHERE category_id = ?)
             + (SELECT COUNT(*) FROM budgets WHERE category_id = ?)
-            + (SELECT COUNT(*) FROM categories WHERE parent_id = ?) AS n`,
-      [id, id, id],
+            + (SELECT COUNT(*) FROM categories WHERE parent_id = ?)
+            + (SELECT COUNT(*) FROM recurring_rules WHERE category_id = ?)
+            + (SELECT COUNT(*) FROM installment_plans WHERE category_id = ?) AS n`,
+      [id, id, id, id, id],
     );
     if (usage.n === 0) {
       await execute('DELETE FROM categories WHERE id = ?', [id]);

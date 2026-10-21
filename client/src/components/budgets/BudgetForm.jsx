@@ -4,6 +4,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { useToast } from '../../context/ToastContext.jsx';
 import { api } from '../../lib/api.js';
+import { formatBps, formatMoney } from '../../lib/format.js';
 import { useForm } from '../../lib/forms.js';
 import { ALERT_LEVELS } from '../../lib/constants.js';
 import { categoryTree, useCategories } from '../../lib/queries.js';
@@ -19,6 +20,7 @@ function BudgetDialog({ budget, usedCategoryIds, onClose }) {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState(null);
   const editing = Boolean(budget);
+  const currency = user.household.currency;
 
   const form = useForm(() => ({
     category_id: budget ? String(budget.category_id) : '',
@@ -28,17 +30,22 @@ function BudgetDialog({ budget, usedCategoryIds, onClose }) {
   const { values, set } = form;
   const tree = useMemo(() => categoryTree(categories.data, 'expense'), [categories.data]);
   const free = (id) => !usedCategoryIds.has(id);
+  const freeCount = tree.reduce((count, parent) => count + (free(parent.id) ? 1 : 0) + parent.children.filter((child) => free(child.id)).length, 0);
+  const allTaken = !editing && categories.isSuccess && freeCount === 0;
 
   async function submit(event) {
     event.preventDefault();
-    if (!values.amount_minor) { form.setErrors({ amount_minor: 'اكتب الحدّ الشهري' }); return; }
+    const errors = {};
+    if (!editing && !values.category_id) errors.category_id = 'اختار التصنيف';
+    if (!values.amount_minor) errors.amount_minor = 'اكتب الحدّ الشهري';
+    if (Object.keys(errors).length) { form.setErrors(errors); return; }
     setBusy(true);
     setMessage(null);
     try {
       if (editing) {
         await api.patch(`/budgets/${budget.id}`, { amount_minor: values.amount_minor, alert_bps: values.alert_bps });
       } else {
-        await api.post('/budgets', { category_id: Number(values.category_id) || undefined, amount_minor: values.amount_minor, alert_bps: values.alert_bps });
+        await api.post('/budgets', { category_id: Number(values.category_id), amount_minor: values.amount_minor, alert_bps: values.alert_bps });
       }
       await queryClient.invalidateQueries({ queryKey: ['budgets'] });
       toast.success(editing ? 'اتعدّلت الميزانية' : 'اتضافت الميزانية');
@@ -50,6 +57,10 @@ function BudgetDialog({ budget, usedCategoryIds, onClose }) {
     }
   }
 
+  // تقريب لأقرب جنيه: الرقم للتقدير بس
+  const perDay = values.amount_minor > 0 ? Math.max(100, Math.round(values.amount_minor / 30 / 100) * 100) : null;
+  const alertAt = values.amount_minor > 0 ? Math.round((values.amount_minor * values.alert_bps) / 10_000) : null;
+
   return (
     <Modal
       open
@@ -59,17 +70,18 @@ function BudgetDialog({ budget, usedCategoryIds, onClose }) {
       footer={(
         <>
           <Button onClick={onClose}>إلغاء</Button>
-          <Button variant="primary" type="submit" form="budget-form" loading={busy}>{editing ? 'حفظ' : 'إضافة'}</Button>
+          <Button variant="primary" type="submit" form="budget-form" loading={busy} disabled={allTaken}>{editing ? 'حفظ' : 'إضافة'}</Button>
         </>
       )}
     >
       <form id="budget-form" className="stack" noValidate onSubmit={submit}>
         {message && <Notice tone="danger" icon="alert">{message}</Notice>}
+        {allTaken && <Notice tone="info" icon="target">كل تصنيفات المصروف عليها ميزانية خلاص. عدّل واحدة موجودة، أو ضيف تصنيف جديد الأول.</Notice>}
         {!editing && (
           <Field label="التصنيف" hint="ميزانية التصنيف الرئيسي بتشمل كل فروعه" error={form.errors.category_id} required>
             {(props) => (
-              <Select {...props} data-autofocus value={values.category_id} onChange={form.on('category_id')}>
-                <option value="">اختار…</option>
+              <Select {...props} data-autofocus value={values.category_id} onChange={form.on('category_id')} disabled={categories.isLoading || allTaken}>
+                <option value="">{categories.isLoading ? 'بنحمّل التصنيفات…' : 'اختار…'}</option>
                 {tree.map((parent) => (
                   <optgroup key={parent.id} label={`${parent.icon ?? ''} ${parent.name}`}>
                     {free(parent.id) && <option value={parent.id}>{parent.name}{parent.children.length ? ' (كله)' : ''}</option>}
@@ -80,10 +92,21 @@ function BudgetDialog({ budget, usedCategoryIds, onClose }) {
             )}
           </Field>
         )}
-        <Field label="الحدّ الشهري" error={form.errors.amount_minor} required>
-          {(props) => <MoneyInput {...props} data-autofocus={editing || undefined} value={values.amount_minor} onChange={(minor) => set('amount_minor', minor)} currency={user.household.currency} />}
+        <Field
+          label="الحدّ الشهري"
+          hint={perDay ? <>يعني حوالي <span className="num">{formatMoney(perDay, currency, { compact: true })}</span> في اليوم</> : 'أقصى مبلغ عايز تصرفه على البند ده في الشهر'}
+          error={form.errors.amount_minor}
+          required
+        >
+          {(props) => <MoneyInput {...props} large data-autofocus={editing || undefined} value={values.amount_minor} onChange={(minor) => set('amount_minor', minor)} currency={currency} />}
         </Field>
-        <Field label="نبّهني لما أوصل" error={form.errors.alert_bps}>
+        <Field
+          label="نبّهني لما أوصل"
+          hint={alertAt
+            ? <>لما المصروف يعدّي <span className="num">{formatMoney(alertAt, currency, { compact: true })}</span> الميزانية هتقلب «قرّبت من الحدّ».</>
+            : <>الميزانية بتقلب «قرّبت من الحدّ» عند <span className="num">{formatBps(values.alert_bps)}</span> منها.</>}
+          error={form.errors.alert_bps}
+        >
           {() => <Segmented block label="حدّ التنبيه" value={values.alert_bps} onChange={(bps) => set('alert_bps', bps)} options={ALERT_LEVELS} />}
         </Field>
       </form>

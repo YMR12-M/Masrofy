@@ -2,30 +2,30 @@
 name: مصروفي (Masrofy)
 description: Family money for Egyptian households, printed like a banknote.
 colors:
-  ink: "#0f3b2d"
-  ink-raised: "#16503d"
-  on-ink: "#eef5ef"
-  on-ink-muted: "#a6c2b4"
-  primary: "#0e6a4c"
-  primary-hover: "#0b5a40"
-  primary-soft: "#dcebe2"
-  on-primary: "#f6fbf8"
+  ink: "#16233d"
+  ink-raised: "#1f3254"
+  on-ink: "#eef2f8"
+  on-ink-muted: "#a9b6cc"
+  primary: "#24478f"
+  primary-hover: "#1d3a78"
+  primary-soft: "#e0e8f6"
+  on-primary: "#f5f8fd"
   gold: "#c9973a"
   gold-bright: "#e2bb55"
   gold-text: "#87621a"
   gold-soft: "#f4e7c6"
-  underprint: "#ecf0eb"
-  surface: "#fbfcfa"
-  surface-2: "#f3f6f2"
-  surface-3: "#e3e9e3"
-  border: "#d8e0d9"
-  border-strong: "#b9c7bd"
-  text: "#13221c"
-  text-muted: "#4a5c54"
-  text-faint: "#5d6d65"
-  income: "#0f7a4f"
+  underprint: "#edf0f3"
+  surface: "#fbfcfd"
+  surface-2: "#f3f5f8"
+  surface-3: "#e3e8ee"
+  border: "#d7dde6"
+  border-strong: "#b6c0cf"
+  text: "#141b26"
+  text-muted: "#4a5568"
+  text-faint: "#5b6577"
+  income: "#1d7a4e"
   expense-sienna: "#a33b27"
-  transfer-indigo: "#2f4d8c"
+  transfer-violet: "#65408f"
   warning: "#835600"
   danger: "#b02a1c"
   expense-on-ink: "#ff9d86"
@@ -126,45 +126,45 @@ components:
 
 **Creative North Star: "The Household Banknote"**
 
-مصروفي is the money of one Egyptian family, so the interface borrows the one object every member handles daily: the banknote. The shell and the most important number on each screen are printed in intaglio bottle green with fine guilloche line-work, the coin from the logo is the only metallic, and everything else is a quiet, cool sage underprint so the numbers stay legible. It is an Operate surface: the world lends type, palette, density and one signature move; navigation, forms, lists and dialogs stay standard web controls in Arabic right-to-left.
+مصروفي is the money of one Egyptian family, so the interface borrows the one object every member handles daily: the banknote. The shell and the most important number on each screen are printed in intaglio navy, like a cheque book, with fine guilloche line-work; the coin from the logo is the only metallic, and everything else is a quiet, cool blue-grey paper so the numbers stay legible. It is an Operate surface: the world lends type, palette, density and one signature move; navigation, forms, lists and dialogs stay standard web controls in Arabic right-to-left.
 
 The signature move is the **rosette**: a guilloche ring drawn from the month's own data. The outer white band is the share of the financial month already elapsed; the inner gold band is the share of income already spent. When gold runs ahead of white, the family is spending faster than the calendar. Every other decision supports reading money exactly: tabular digits, a denomination split (big pounds, small piastres and currency), and fixed semantic colors for income, expense and transfer.
 
 Density is a daily-app middle: generous rows (60px) for touch, compact labels, one plate per screen. Light and dark are both first-class; the theme follows the device unless the person picks one.
 
 **Key Characteristics:**
-- Ink green shell (desktop rail, mobile tab bar, plates) in both themes.
+- Navy ink shell (desktop rail, mobile tab bar, plates) in both themes.
 - One reversed plate per screen carrying that screen's key figure.
 - Data-driven guilloche rosette on the dashboard and budgets plates.
 - Gold only from the coin: add button, active nav icon, security thread, spent arc.
-- Cool sage underprint ground, never cream.
+- Cool blue-grey paper ground, never cream; dark theme is a neutral graphite, never a tinted near-black.
 - Egyptian colloquial copy, no em dashes, no decorative emoji.
 
 ## Colors
 
-A restrained underprint field with one committed ink green, one metallic gold, and three fixed money semantics.
+A restrained paper field with one committed navy ink, one metallic gold, and three fixed money semantics. The palette moved from bottle green to navy on 2026-10-21 because the user felt the green and mint read as AI-generated.
 
 ### Primary
-- **Intaglio Bottle Green** (ink): the desktop rail, the mobile tab bar, the drawer, toasts and every plate. Stays dark in both themes (dark-theme value is deeper) so the brand reads the same at night.
-- **Banknote Green** (primary): interactive green for primary buttons, links, focus and selected states. Brighter mint in dark theme for contrast.
+- **Cheque Navy** (ink): the desktop rail, the mobile tab bar, the drawer, toasts and every plate. Stays dark in both themes so the brand reads the same at night.
+- **Ledger Blue** (primary): interactive blue for primary buttons, links, focus and selected states. A soft periwinkle in dark theme for contrast, never neon.
 
 ### Secondary
 - **Coin Gold** (gold, gold-bright): the metal of the logo's coin. Lives on ink: the coin add button, the active nav icon, the dashed security thread, the rosette's spent band, plate icons. Use gold-text only when small gold text must sit on a light ground.
 
 ### Tertiary
 - **Banknote Sienna** (expense-sienna): every expense amount, expense bars, the over-budget hatch.
-- **Note Indigo** (transfer-indigo): transfers.
+- **Stamp Violet** (transfer-violet): transfers, kept away from the navy of the buttons.
 - **Income Green** (income): income amounts and on-track states.
 
 ### Neutral
-- **Sage Underprint** (underprint): page ground, like the tinted underprint of a note.
+- **Cheque Paper** (underprint): page ground, a cool blue-grey like cheque paper.
 - **Note Paper** (surface) and its two steps (surface-2, surface-3): cards, list group heads, tracks and segmented backgrounds.
-- **Green-black Ink** (text) with muted and faint steps, all tinted green, all at least 4.5:1 on surface.
+- **Navy-black Ink** (text) with muted and faint steps, all tinted toward navy, all at least 4.5:1 on surface.
 
 ### Named Rules
 **The One Metal Rule.** Gold appears only as the coin's metal and only where something is the brand or the current state: the add button, the active destination, the security thread, the spent arc. Never as a generic accent or a hover color.
 
-**The Fixed Money Rule.** Income is green, expense is sienna, transfer is indigo, on every screen, in both themes, and always paired with a sign or an arrow so color is never the only signal.
+**The Fixed Money Rule.** Income is green, expense is sienna, transfer is violet, on every screen, in both themes, and always paired with a sign or an arrow so color is never the only signal.
 
 ## Typography
 
@@ -191,7 +191,7 @@ Desktop is a two-column grid: the 248px ink rail on the right (RTL start), a 64p
 
 ## Elevation & Depth
 
-Mostly flat and tonal. Cards are surface with a 1px border and no shadow at rest; they gain the soft shadow only on hover when they are clickable. Plates carry the soft shadow permanently because they are the reversed figure of the screen. Overlays (menus, dialogs, drawer, toasts) use the large shadow. All shadows are tinted toward the ink green in light theme.
+Mostly flat and tonal. Cards are surface with a 1px border and no shadow at rest; they gain the soft shadow only on hover when they are clickable. Plates carry the soft shadow permanently because they are the reversed figure of the screen. Overlays (menus, dialogs, drawer, toasts) use the large shadow. All shadows are tinted toward the navy ink in light theme.
 
 ### Shadow Vocabulary
 - **Hairline** (`0 1px 2px rgb(15 59 45 / 7%)`): segmented active pill, switch knob.
@@ -209,9 +209,9 @@ Gently rounded and consistent: controls 10px, containers 14px, plates and dialog
 
 ### Buttons
 - **Shape:** 10px corners, 42px tall (34px small, 50px large).
-- **Primary:** banknote green with near-white text, used once per region for the main action.
+- **Primary:** ledger blue with near-white text, used once per region for the main action.
 - **Secondary:** note paper with a strong border; **Ghost:** transparent muted text.
-- **Hover / Focus / Press:** color shift on hover, a 2px green outline offset 2px on keyboard focus, scale 0.97 on press.
+- **Hover / Focus / Press:** color shift on hover, a 2px blue outline offset 2px on keyboard focus, scale 0.97 on press.
 
 ### Cards / Containers
 - **Corner Style:** 14px.
@@ -220,7 +220,7 @@ Gently rounded and consistent: controls 10px, containers 14px, plates and dialog
 
 ### Inputs / Fields
 - **Style:** 1px strong border, note paper, 10px corners, 44px tall; label above, hint or error below.
-- **Focus:** green border plus a 3px soft green ring.
+- **Focus:** blue border plus a 3px soft blue ring.
 - **Amount field:** 2.25rem tabular digits, 68px tall, currency addon on the end side.
 
 ### Navigation
@@ -246,7 +246,8 @@ The phone's add action: 60px flat gold circle raised 26px above the tab bar, ink
 - **Do** write copy in friendly Egyptian colloquial with periods and commas.
 
 ### Don't:
-- **Don't** use a cream or warm-paper ground; the underprint is cool sage.
+- **Don't** use a cream or warm-paper ground; the paper is cool blue-grey.
+- **Don't** bring back emerald or mint greens for brand surfaces; green is only for income.
 - **Don't** use gold for anything but the coin's roles listed above.
 - **Don't** add bevels, highlight gradients or inset shading to fake metal or relief.
 - **Don't** put decorative emoji in UI copy or empty states (category emoji chosen by the family are content and stay).

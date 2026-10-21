@@ -8,6 +8,8 @@
  *    العملية (القديم والجديد عند التعديل)، وألا يكون أيّهما مؤرشفًا.
  *  • التعديل يدمج التغييرات مع العملية الحالية ثم يتحقّق من الشكل الكامل،
  *    فتغيير النوع من تحويل لمصروف (أو العكس) يمرّ بنفس قواعد الإنشاء.
+ *  • الإنشاء يقبل اتصال معاملة (`db`) اختياريًّا: تسجيل فاتورة أو قسط
+ *    ينشئ العملية ويربطها في نفس المعاملة، فلا تُسجَّل مرتين ولا تضيع.
  * ═══════════════════════════════════════════════════════════════
  */
 import { query, queryOne, execute, safeInt } from '../../config/db.js';
@@ -16,6 +18,8 @@ import { pageMeta } from '../../utils/response.js';
 import { canRecordOn, canSeeAccount, visibleAccounts } from '../accounts/access.js';
 
 const PRIVATE_NAME = 'حساب خاص';
+/** واجهة الاستعلام الافتراضية (الـ pool) — أو اتصال معاملة بنفس الشكل */
+const pooled = { query, queryOne, execute };
 const EXPORT_LIMIT = 20_000;
 
 const FROM = `
@@ -75,9 +79,9 @@ function buildWhere(user, filters = {}) {
   return { sql: where.join(' AND '), params };
 }
 
-async function findVisible(user, id) {
+async function findVisible(user, id, db = pooled) {
   const { sql, params } = buildWhere(user);
-  const row = await queryOne(`SELECT ${COLUMNS} ${FROM} WHERE t.id = ? AND ${sql}`, [id, ...params]);
+  const row = await db.queryOne(`SELECT ${COLUMNS} ${FROM} WHERE t.id = ? AND ${sql}`, [id, ...params]);
   if (!row) throw ApiError.notFound('العملية غير موجودة');
   return present(user, row);
 }
@@ -86,9 +90,9 @@ const fieldError = (field, message, code = 'VALIDATION_ERROR') =>
   ApiError.unprocessable(message, { code, details: { [field]: message } });
 
 /** الحساب لازم يكون ظاهرًا ونشطًا ويحقّ للمستخدم التسجيل عليه */
-async function assertRecordable(user, accountId, field) {
+async function assertRecordable(user, accountId, field, db = pooled) {
   const visible = visibleAccounts(user, 'a');
-  const account = await queryOne(
+  const account = await db.queryOne(
     `SELECT a.id, a.owner_user_id, a.archived_at FROM accounts a
       WHERE a.id = ? AND a.household_id = ? AND ${visible.sql}`,
     [accountId, user.household_id, ...visible.params],
@@ -103,18 +107,18 @@ async function assertRecordable(user, accountId, field) {
  * يتحقّق من الشكل الكامل للعملية ويعيد القيم الجاهزة للحفظ.
  * `current` عند التعديل: يسمح بالإبقاء على تصنيف أُرشف بعد التسجيل.
  */
-async function resolveShape(user, data, current = null) {
-  await assertRecordable(user, data.account_id, 'account_id');
+async function resolveShape(user, data, current = null, db = pooled) {
+  await assertRecordable(user, data.account_id, 'account_id', db);
 
   if (data.type === 'transfer') {
     if (!data.to_account_id) throw fieldError('to_account_id', 'اختار الحساب اللي هتحوّل له');
     if (data.to_account_id === data.account_id) throw fieldError('to_account_id', 'مينفعش تحوّل لنفس الحساب');
-    await assertRecordable(user, data.to_account_id, 'to_account_id');
+    await assertRecordable(user, data.to_account_id, 'to_account_id', db);
     return { ...data, category_id: null };
   }
 
   if (!data.category_id) throw fieldError('category_id', 'اختار التصنيف');
-  const category = await queryOne(
+  const category = await db.queryOne(
     'SELECT id, kind, archived_at FROM categories WHERE id = ? AND household_id = ?',
     [data.category_id, user.household_id],
   );
@@ -170,14 +174,17 @@ export const transactionsService = {
 
   find: findVisible,
 
-  async create(user, input) {
-    const data = await resolveShape(user, input);
-    const result = await execute(
+  /** قواعد شكل العملية وحقّ التسجيل بدون حفظ — لقوالب الفواتير المتكرّرة */
+  checkShape: (user, input) => resolveShape(user, input),
+
+  async create(user, input, db = pooled) {
+    const data = await resolveShape(user, input, null, db);
+    const result = await db.execute(
       `INSERT INTO transactions (household_id, ${SAVED_FIELDS.join(', ')}, created_by, updated_by)
        VALUES (?, ${SAVED_FIELDS.map(() => '?').join(', ')}, ?, ?)`,
       [user.household_id, ...SAVED_FIELDS.map((field) => data[field] ?? null), user.id, user.id],
     );
-    return findVisible(user, result.insertId);
+    return findVisible(user, result.insertId, db);
   },
 
   async update(user, id, changes) {

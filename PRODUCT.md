@@ -37,6 +37,7 @@ Built for the Egyptian family, not the individual: shared and strictly private a
 
 - Name: مصروفي.
 - The user asked to evolve the existing identity rather than replace it: a wallet logo with a gold coin, deep money green, warm gold accent. Evolve these so the product stops reading as AI-generated.
+- Palette (2026-10-21): the user asked to drop the green because it read as AI-generated, and chose navy ink with the gold coin. Green now only marks income.
 - Voice: friendly Egyptian colloquial Arabic (confirmed), e.g. «لسه مفيش عمليات»، «حاول تاني».
 
 ## Evidence on Hand

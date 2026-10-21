@@ -1,7 +1,7 @@
 /**
  * الرئيسية: صورة الشهر المالي الحالي في نظرة واحدة. لوحة الشهر (المتبقّي،
- * الدخل والمصروف، ووردة الوتيرة)، ثم آخر العمليات، والميزانيات الأقرب
- * للحدّ، وأرصدة الحسابات.
+ * الدخل والمصروف، ووردة الوتيرة)، ثم آخر العمليات، والفواتير القريبة،
+ * والميزانيات الأقرب للحدّ، وأرصدة الحسابات.
  */
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -9,10 +9,12 @@ import { useAuth } from '../context/AuthContext.jsx';
 import { api } from '../lib/api.js';
 import { firstName, formatBps, formatDayMonth, formatMoney, formatMonth } from '../lib/format.js';
 import { useDocumentTitle } from '../lib/hooks.js';
-import { currentMonth, periodRange, todayIn } from '../lib/period.js';
+import { addDays, currentMonth, periodRange, todayIn } from '../lib/period.js';
 import { BUDGET_STATUS } from '../lib/constants.js';
 import { Icon } from '../lib/icons.jsx';
-import { useAccounts } from '../lib/queries.js';
+import { useAccounts, useDueBills } from '../lib/queries.js';
+import { countText } from '../lib/bills.js';
+import DueList from '../components/bills/DueList.jsx';
 import TransactionList from '../components/transactions/TransactionList.jsx';
 import { useQuickAdd } from '../components/transactions/QuickAdd.jsx';
 import {
@@ -114,6 +116,47 @@ function BudgetsCard({ month, currency }) {
   );
 }
 
+/** الأيام اللي تعتبرها الرئيسية «قريبة» */
+const SOON_DAYS = 7;
+const SOON_LIMIT = 5;
+
+/** فواتير قريبة: المتأخر واللي جاي خلال أسبوع، بزرار «دفعت» */
+function BillsCard({ today, currency }) {
+  const due = useDueBills({ to: addDays(today, SOON_DAYS) });
+  if (!due.data) return due.isLoading ? <Skeleton height={120} style={{ borderRadius: 14 }} /> : null;
+
+  const { items, sources } = due.data;
+  const shown = items.slice(0, SOON_LIMIT);
+  const hasSources = sources.recurring + sources.installments > 0;
+  const overdue = items.filter((item) => item.status === 'overdue').length;
+
+  return (
+    <Card
+      title="فواتير قريبة"
+      actions={<CardLink to="/bills" />}
+      flush
+      footer={items.length > SOON_LIMIT && (
+        <Link to="/bills" className="small">و<span className="num">{items.length - SOON_LIMIT}</span> كمان خلال الأسبوع</Link>
+      )}
+    >
+      {!hasSources && (
+        <div className="card-body stack sm">
+          <p className="muted small">سجّل الإيجار والنت والأقساط مرة واحدة، ونفكّرك بمعادها وتسجّلها بضغطة.</p>
+          <Link to="/bills?new=recurring" className="btn secondary sm" style={{ alignSelf: 'flex-start' }}>ضيف فاتورة متكرّرة</Link>
+        </div>
+      )}
+      {hasSources && items.length === 0 && (
+        <div className="card-body row" style={{ gap: 8 }}>
+          <Icon name="check" size={18} style={{ color: 'var(--income)' }} />
+          <span className="muted small">مفيش فواتير الأسبوع ده</span>
+        </div>
+      )}
+      {overdue > 0 && <div className="list-group-head danger"><span>عليك {countText(overdue, { one: 'معاد متأخر', two: 'معادين متأخرين', few: 'مواعيد متأخرة', many: 'معاد متأخر' })}</span></div>}
+      {shown.length > 0 && <DueList items={shown} today={due.data.today} currency={currency} compact />}
+    </Card>
+  );
+}
+
 function AccountsCard({ accounts, currency }) {
   const counted = accounts.filter((account) => account.include_in_net_worth);
   const total = counted.reduce((sum, account) => sum + account.balance_minor, 0);
@@ -205,6 +248,7 @@ export default function Dashboard() {
             </Card>
 
             <div className="stack">
+              <BillsCard today={today} currency={currency} />
               {can('budgets.read') && <BudgetsCard month={month} currency={currency} />}
               {accounts.data?.length > 0 && <AccountsCard accounts={accounts.data} currency={currency} />}
             </div>

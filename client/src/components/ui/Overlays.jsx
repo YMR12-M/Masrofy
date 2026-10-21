@@ -7,11 +7,15 @@ import { Button } from './Controls.jsx';
 
 const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
+/** النوافذ المفتوحة فوق بعض (تأكيد فوق نموذج مثلًا): Esc وTab للّي فوق بس */
+const openModals = [];
+
 /**
  * نافذة حوار: Esc للإغلاق، تحبس التركيز، وتمنع تمرير الخلفية.
  * على الموبايل تظهر كورقة من أسفل الشاشة (CSS).
  * `onClose` يُقرأ من مرجع: الصفحة الأم تمرّر دالة جديدة عند كل رسم، ولو كانت ضمن
  * اعتماديات الأثر لقفز التركيز إلى أول حقل مع كل ضغطة مفتاح.
+ * لو فيه نافذة فوق التانية، Esc يقفل اللي فوق بس، والتمرير يرجع لما تتقفل كلها.
  */
 export function Modal({ open, onClose, title, children, footer, size = '', dismissible = true }) {
   const ref = useRef(null);
@@ -20,12 +24,15 @@ export function Modal({ open, onClose, title, children, footer, size = '', dismi
 
   useEffect(() => {
     if (!open) return undefined;
+    const token = {};
+    openModals.push(token);
     const previous = document.activeElement;
     document.body.style.overflow = 'hidden';
     const node = ref.current;
     (node?.querySelector('[data-autofocus]') ?? node?.querySelector(FOCUSABLE))?.focus();
 
     const onKey = (event) => {
+      if (openModals[openModals.length - 1] !== token) return;
       if (event.key === 'Escape' && dismissible) { event.stopPropagation(); closeRef.current(); return; }
       if (event.key !== 'Tab' || !node) return;
       const items = [...node.querySelectorAll(FOCUSABLE)];
@@ -38,7 +45,8 @@ export function Modal({ open, onClose, title, children, footer, size = '', dismi
     document.addEventListener('keydown', onKey);
     return () => {
       document.removeEventListener('keydown', onKey);
-      document.body.style.overflow = '';
+      openModals.splice(openModals.indexOf(token), 1);
+      if (openModals.length === 0) document.body.style.overflow = '';
       previous?.focus?.();
     };
   }, [open, dismissible, closeRef]);

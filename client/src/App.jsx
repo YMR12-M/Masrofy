@@ -14,6 +14,7 @@ const Dashboard = lazy(() => import('./pages/Dashboard.jsx'));
 const Transactions = lazy(() => import('./pages/Transactions.jsx'));
 const Accounts = lazy(() => import('./pages/Accounts.jsx'));
 const Budgets = lazy(() => import('./pages/Budgets.jsx'));
+const Bills = lazy(() => import('./pages/Bills.jsx'));
 const Reports = lazy(() => import('./pages/Reports.jsx'));
 const Categories = lazy(() => import('./pages/Categories.jsx'));
 const Members = lazy(() => import('./pages/Members.jsx'));
@@ -68,6 +69,7 @@ function AppRoutes() {
           <Route index element={<Dashboard />} />
           <Route path="transactions" element={<Allow any={['accounts.read', 'accounts.own']}><Transactions /></Allow>} />
           <Route path="accounts" element={<Allow any={['accounts.read', 'accounts.own']}><Accounts /></Allow>} />
+          <Route path="bills" element={<Allow any={['accounts.read', 'accounts.own']}><Bills /></Allow>} />
           <Route path="budgets" element={<Allow any={['budgets.read']}><Budgets /></Allow>} />
           <Route path="reports" element={<Allow any={['reports.read']}><Reports /></Allow>} />
           <Route path="categories" element={<Allow any={['categories.manage']}><Categories /></Allow>} />

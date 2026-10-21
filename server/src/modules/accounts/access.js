@@ -20,10 +20,15 @@ const isShared = (account) => account.owner_user_id === null || account.owner_us
 /**
  * شرط SQL للحسابات الظاهرة للمستخدم.
  * @returns {{ sql: string, params: any[] }}  يُدمج كما هو: `WHERE ${v.sql}` و`params.push(...v.params)`
+ *
+ * «مشترك أو بتاعي» مكتوبة `IFNULL(owner, 0) IN (0, ?)` لا `owner IS NULL OR owner = ?`:
+ * الصيغة الثانية على جدول LEFT JOIN (وجهة التحويل `ta`) مع معامل prepared
+ * statement ترجّع صفوفًا غلط في MySQL 9.7 — كانت تكشف تحويلًا بين جيبين
+ * خاصّين لصاحب الأسرة. المعنى واحد (معرّفات الأفراد تبدأ من 1).
  */
 export function visibleAccounts(user, alias = 'a') {
   return seesShared(user)
-    ? { sql: `(${alias}.owner_user_id IS NULL OR ${alias}.owner_user_id = ?)`, params: [user.id] }
+    ? { sql: `IFNULL(${alias}.owner_user_id, 0) IN (0, ?)`, params: [user.id] }
     : { sql: `${alias}.owner_user_id = ?`, params: [user.id] };
 }
 

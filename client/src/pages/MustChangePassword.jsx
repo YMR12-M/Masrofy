@@ -15,6 +15,7 @@ export default function MustChangePassword() {
   const form = useForm({ current_password: '', new_password: '', confirm: '' });
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState(null);
+  const filled = Object.values(form.values).every(Boolean);
 
   async function submit(event) {
     event.preventDefault();
@@ -41,21 +42,25 @@ export default function MustChangePassword() {
   return (
     <AuthLayout
       title={`أهلًا ${user.full_name}`}
-      subtitle={`انضممت لأسرة «${user.household.name}». اختار كلمة مرور خاصة بيك بدل المؤقتة.`}
-      footer={<p className="center small"><button type="button" className="btn ghost sm" onClick={logout}>خروج</button></p>}
+      subtitle={`انضميت لأسرة «${user.household.name}». اختار كلمة مرور خاصة بيك بدل المؤقتة، وبعدها تدخل على طول.`}
+      footer={(
+        <p className="center small muted">
+          مش إنت؟ <button type="button" className="btn ghost sm" onClick={logout}>خروج</button>
+        </p>
+      )}
     >
       <form className="stack" onSubmit={submit} noValidate>
         {message && <Notice tone="danger" icon="alert">{message}</Notice>}
-        <Field label="الكلمة المؤقتة" error={form.errors.current_password}>
+        <Field label="الكلمة المؤقتة" hint="اللي اداهالك صاحب الأسرة" error={form.errors.current_password}>
           {(props) => <Input {...props} type="password" autoComplete="current-password" autoFocus dir="ltr" className="ltr-input" value={form.values.current_password} onChange={form.on('current_password')} />}
         </Field>
-        <Field label="كلمة المرور الجديدة" hint="10 حروف على الأقل وتجمع حروف وأرقام أو رموز" error={form.errors.new_password}>
+        <Field label="كلمة المرور الجديدة" hint="10 حروف على الأقل، فيها حروف وأرقام أو رموز" error={form.errors.new_password}>
           {(props) => <Input {...props} type="password" autoComplete="new-password" dir="ltr" className="ltr-input" value={form.values.new_password} onChange={form.on('new_password')} />}
         </Field>
-        <Field label="أكّدها" error={form.errors.confirm}>
+        <Field label="اكتبها تاني" error={form.errors.confirm}>
           {(props) => <Input {...props} type="password" autoComplete="new-password" dir="ltr" className="ltr-input" value={form.values.confirm} onChange={form.on('confirm')} />}
         </Field>
-        <Button type="submit" variant="primary" size="lg" block loading={busy}>حفظ ومتابعة</Button>
+        <Button type="submit" variant="primary" size="lg" block loading={busy} disabled={!filled}>حفظ ومتابعة</Button>
       </form>
     </AuthLayout>
   );

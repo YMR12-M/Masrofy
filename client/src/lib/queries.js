@@ -3,7 +3,8 @@
  *
  * المفاتيح تبدأ باسم المورد، فإبطال ['transactions'] مثلًا يجدّد كل قوائم
  * العمليات بأي فلاتر. وأي تعديل على الفلوس يمسّ الأرصدة والميزانيات
- * والتقارير معًا، فـ `useRefreshMoney` يجدّدها كلها مرّة واحدة.
+ * والتقارير معًا، فـ `useRefreshMoney` يجدّدها كلها مرّة واحدة — ومعها
+ * الفواتير والأقساط (حذف عملية مولّدة من فاتورة يرجّعها مستحقّة).
  */
 import { useCallback } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -32,8 +33,25 @@ export function useMembers() {
 export function useRefreshMoney() {
   const queryClient = useQueryClient();
   return useCallback(() => Promise.all(
-    ['accounts', 'transactions', 'budgets', 'reports'].map((key) => queryClient.invalidateQueries({ queryKey: [key] })),
+    ['accounts', 'transactions', 'budgets', 'reports', 'bills'].map((key) => queryClient.invalidateQueries({ queryKey: [key] })),
   ), [queryClient]);
+}
+
+/** المواعيد المستحقّة (والمتأخرة) لحدّ `to` — من الفواتير المتكرّرة والأقساط */
+export function useDueBills({ to, enabled = true } = {}) {
+  return useQuery({
+    queryKey: ['bills', 'due', { to }],
+    queryFn: () => api.get('/bills/due', { to }),
+    enabled,
+  });
+}
+
+export function useRecurringRules({ enabled = true } = {}) {
+  return useQuery({ queryKey: ['bills', 'recurring'], queryFn: () => api.get('/recurring'), enabled });
+}
+
+export function useInstallmentPlans({ enabled = true } = {}) {
+  return useQuery({ queryKey: ['bills', 'installments'], queryFn: () => api.get('/installments'), enabled });
 }
 
 /**

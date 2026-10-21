@@ -109,14 +109,19 @@ export const accountsService = {
     return { before, after: await findVisible(user, id) };
   },
 
-  /** حساب بلا عمليات يُحذف فعلًا، ومَن له عمليات يُؤرشَف (تاريخه يفضل في التقارير) */
+  /**
+   * حساب بلا عمليات يُحذف فعلًا، ومَن له عمليات يُؤرشَف (تاريخه يفضل في التقارير).
+   * وكذلك لو عليه فاتورة متكرّرة أو خطّة تقسيط: تفضل ظاهرة بتنبيه «الحساب مؤرشف».
+   */
   async remove(user, id) {
     const account = await findVisible(user, id);
     if (!account.can_manage) throw ApiError.forbidden('مينفعش تحذف الحساب ده', { code: 'FORBIDDEN' });
 
     const { n } = await queryOne(
-      'SELECT COUNT(*) AS n FROM transactions WHERE account_id = ? OR to_account_id = ?',
-      [id, id],
+      `SELECT (SELECT COUNT(*) FROM transactions WHERE account_id = ? OR to_account_id = ?)
+            + (SELECT COUNT(*) FROM recurring_rules WHERE account_id = ? OR to_account_id = ?)
+            + (SELECT COUNT(*) FROM installment_plans WHERE account_id = ?) AS n`,
+      [id, id, id, id, id],
     );
     if (n === 0) {
       await execute('DELETE FROM accounts WHERE id = ?', [id]);
