@@ -52,6 +52,9 @@ const PATHS = {
   eye: <><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z" /><circle cx="12" cy="12" r="3" /></>,
   copy: <><rect x="8" y="8" width="13" height="13" rx="2" /><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3" /></>,
   wifi: <><path d="M2 8.5a15 15 0 0 1 20 0M5 12a10 10 0 0 1 14 0M8.5 15.5a5 5 0 0 1 7 0" /><path d="M12 19h.01" /></>,
+  receipt: <><path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3Z" /><path d="M9 8h6M9 12h6M9 16h3" /></>,
+  repeat: <><path d="m17 2 4 4-4 4" /><path d="M3 11V9a3 3 0 0 1 3-3h15" /><path d="m7 22-4-4 4-4" /><path d="M21 13v2a3 3 0 0 1-3 3H3" /></>,
+  compass: <><circle cx="12" cy="12" r="9" /><path d="m15.5 8.5-2 5-5 2 2-5 5-2Z" /></>,
 };
 
 export function Icon({ name, size = 20, strokeWidth = 1.8, style, className }) {
@@ -76,20 +79,25 @@ export function Icon({ name, size = 20, strokeWidth = 1.8, style, className }) {
   );
 }
 
-/** الشعار: محفظة بعملة ذهبية */
+/**
+ * الشعار: محفظة بعملة دهب مسكوكة (حلقة محفورة جوّه العملة).
+ * لون المربّع من `--logo-bg` (فوق الحبر الأخضر بيبقى درجة أفتح عشان يبان).
+ */
 export function Logo({ size = 36 }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 40 40" aria-hidden="true">
-      <rect width="40" height="40" rx="11" fill="var(--primary)" />
+    <svg width={size} height={size} viewBox="0 0 40 40" aria-hidden="true" focusable="false">
+      <rect width="40" height="40" rx="11" fill="var(--logo-bg, #0f3b2d)" />
+      <rect x="2.5" y="2.5" width="35" height="35" rx="9" fill="none" stroke="#eef5ef" strokeOpacity="0.16" />
       <path
         d="M27 11H12a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h16a3 3 0 0 0 3-3v-9a3 3 0 0 0-3-3H12"
         fill="none"
-        stroke="var(--on-primary)"
-        strokeWidth="2.4"
+        stroke="#eef5ef"
+        strokeWidth="2.2"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <circle cx="25.5" cy="21.5" r="2.2" fill="var(--accent)" />
+      <circle cx="25" cy="21.5" r="3.6" fill="#e2bb55" />
+      <circle cx="25" cy="21.5" r="2.2" fill="none" stroke="#0f3b2d" strokeOpacity="0.45" strokeWidth="0.8" />
     </svg>
   );
 }

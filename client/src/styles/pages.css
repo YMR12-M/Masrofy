@@ -2,87 +2,74 @@
 
 /* ── متنقّل الشهور ───────────────────────────────────────── */
 .month-nav {
-  display: inline-flex; align-items: center; gap: 4px; padding: 3px;
+  display: inline-flex; align-items: center; gap: 2px; padding: 3px;
   background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
 }
-.month-nav .label { min-width: 132px; text-align: center; font-weight: 600; font-size: 0.95rem; }
-.month-nav .range { display: block; font-size: 0.72rem; color: var(--text-faint); font-weight: 400; }
+.month-nav .label { min-width: 136px; text-align: center; font-weight: 600; font-size: var(--fs-md); line-height: 1.3; }
+.month-nav .range { display: block; font-size: var(--fs-xs); color: var(--text-faint); font-weight: 400; }
 
-/* ── بطاقة الشهر في الرئيسية ─────────────────────────────── */
-.month-hero { padding: 22px; display: grid; gap: 18px; }
-.month-hero .figures { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
-.month-hero .figure .label { font-size: 0.85rem; color: var(--text-muted); display: flex; align-items: center; gap: 6px; }
-.month-hero .figure .value { font-size: 1.6rem; font-weight: 600; line-height: 1.3; }
-.month-hero .figure.net .value { font-size: 2rem; }
-.month-hero .pace { display: flex; justify-content: space-between; gap: 12px; font-size: 0.82rem; color: var(--text-muted); flex-wrap: wrap; }
-.month-hero .figure { min-width: 0; }
-@media (max-width: 640px) {
-  .month-hero { padding: 18px; }
-  .month-hero .figures { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .month-hero .figure.net { grid-column: 1 / -1; order: -1; }
-  /* مبلغان متجاوران على شاشة 375px: الخطّ يصغر مع العرض بدل ما يفيض خارج البطاقة */
-  .month-hero .figure .value { font-size: clamp(1rem, 5vw, 1.35rem); }
-  .month-hero .figure.net .value { font-size: clamp(1.5rem, 8vw, 2rem); }
-}
+/* ── الرئيسية ────────────────────────────────────────────── */
+.greeting { display: flex; align-items: baseline; justify-content: space-between; gap: 8px 16px; flex-wrap: wrap; }
+.greeting h1 { font-size: var(--fs-xl); }
+.greeting p { color: var(--text-muted); font-size: var(--fs-sm); }
 
 /* ── صفّ العملية ─────────────────────────────────────────── */
 .tx-amount { font-weight: 600; white-space: nowrap; }
 .tx-sub { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
 
 /* ── بطاقات الحسابات ─────────────────────────────────────── */
-.accounts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: var(--gap); }
+.accounts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: var(--gap); }
 .account-card {
-  position: relative; display: flex; flex-direction: column; gap: 14px; padding: 16px 18px;
-  border-top: 4px solid var(--acc, var(--primary));
+  position: relative; display: flex; flex-direction: column; gap: 18px; padding: 18px 20px;
+  transition: border-color 0.18s var(--ease), box-shadow 0.18s var(--ease), transform 0.18s var(--ease);
 }
-.account-card.archived { opacity: 0.65; }
-.account-card .type-icon {
-  width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; flex: none;
-  background: color-mix(in srgb, var(--acc, var(--primary)) 14%, var(--surface)); color: var(--acc, var(--primary));
-}
-.account-card .balance { font-size: 1.4rem; font-weight: 600; }
+.account-card:hover { border-color: var(--border-strong); box-shadow: var(--shadow); }
+.account-card.archived { opacity: 0.6; }
+.account-card .balance { font-size: var(--fs-2xl); }
 .account-card .open-link { position: absolute; inset: 0; border-radius: inherit; }
 .account-card .card-menu { position: relative; z-index: 1; }
-.net-worth { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.net-worth > div { padding: 16px 18px; }
-.net-worth > div + div { border-inline-start: 1px solid var(--border); }
-@media (max-width: 640px) {
-  .net-worth { grid-template-columns: 1fr; }
-  .net-worth > div + div { border-inline-start: 0; border-top: 1px solid var(--border); }
-}
+.section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.section-head h2 { font-size: var(--fs-lg); }
 
 /* ── الميزانيات ──────────────────────────────────────────── */
-.budget-row { display: grid; gap: 8px; padding: 14px 18px; border-bottom: 1px solid var(--border); }
+.budget-row { display: grid; gap: 10px; padding: 16px 20px; border-bottom: 1px solid var(--border); }
 .budget-row:last-child { border-bottom: 0; }
-.budget-row .figures { display: flex; justify-content: space-between; gap: 10px; font-size: 0.84rem; color: var(--text-muted); flex-wrap: wrap; }
+.budget-row .figures { display: flex; justify-content: space-between; gap: 10px; font-size: var(--fs-sm); color: var(--text-muted); flex-wrap: wrap; }
+@media (max-width: 640px) { .budget-row { padding: 14px 16px; } }
 
 /* ── الرسوم (أشرطة أفقية لكل تصنيف، وأعمدة للشهور والأيام) ── */
-.bars { display: grid; gap: 12px; }
-.bar-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; align-items: center; }
+.bars { display: grid; gap: 14px; }
+.bar-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 12px; align-items: center; }
 .bar-row .track { grid-column: 1 / -1; height: 8px; border-radius: 99px; background: var(--surface-3); overflow: hidden; }
-.bar-row .track span { display: block; height: 100%; border-radius: inherit; background: var(--cat, var(--primary)); }
+.bar-row .track span { display: block; height: 100%; border-radius: inherit; background: var(--cat, var(--primary)); transition: width 0.6s var(--ease); }
 
 .columns-chart { width: 100%; height: auto; display: block; overflow: visible; }
-.columns-chart .axis { stroke: var(--border); }
-.columns-chart .grid-line { stroke: var(--border); stroke-dasharray: 3 4; }
+.columns-chart .axis { stroke: var(--border-strong); }
+.columns-chart .grid-line { stroke: var(--border); stroke-dasharray: 2 4; }
 .columns-chart .tick { fill: var(--text-faint); font-size: 11px; font-family: var(--font); }
 .columns-chart .bar-income { fill: var(--income); }
 .columns-chart .bar-expense { fill: var(--expense); }
-.columns-chart rect:hover { opacity: 0.8; }
-.legend { display: flex; gap: 16px; font-size: 0.82rem; color: var(--text-muted); flex-wrap: wrap; }
+.columns-chart rect { transition: opacity 0.15s var(--ease); }
+.columns-chart rect:hover { opacity: 0.75; }
+.legend { display: flex; gap: 16px; font-size: var(--fs-xs); color: var(--text-muted); flex-wrap: wrap; }
 .legend span { display: inline-flex; align-items: center; gap: 6px; }
-.legend i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+.legend i { width: 12px; height: 4px; border-radius: 2px; display: inline-block; }
+
+.change { display: inline-flex; align-items: center; gap: 4px; }
 
 /* ── شجرة التصنيفات ──────────────────────────────────────── */
-.cat-children { border-inline-start: 2px solid var(--border); margin-inline-start: 38px; }
-.cat-children .list-item { padding-inline-start: 14px; }
+.cat-children { border-inline-start: 1px solid var(--border-strong); margin-inline-start: 39px; }
+.cat-children .list-item { padding-inline-start: 16px; }
 .cat-row.archived { opacity: 0.6; }
 
 /* ── الفلاتر ─────────────────────────────────────────────── */
+.toolbar { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
 .filters { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-.filters .select, .filters .search-input { width: auto; min-width: 160px; flex: 1; }
-.filters .search-input { min-width: 200px; }
+.filters .select, .filters .search-input { width: auto; min-width: 170px; flex: 1; }
+.filters .search-input { min-width: 220px; flex: 1.4; }
 @media (max-width: 640px) {
   .filters .select, .filters .search-input { min-width: 0; flex-basis: 100%; }
+  .toolbar .segmented { width: 100%; }
+  .toolbar .segmented button { flex: 1; justify-content: center; }
 }
-.totals-line { display: flex; gap: 18px; flex-wrap: wrap; font-size: 0.9rem; color: var(--text-muted); }
+.totals-line { display: flex; gap: 6px 20px; flex-wrap: wrap; font-size: var(--fs-sm); color: var(--text-muted); }

@@ -1,46 +1,56 @@
-/* الأساس: إعادة الضبط، الخط، وأدوات مساعدة صغيرة */
+/* الأساس: إعادة الضبط، الخط، أسطح المتصفح، وأدوات مساعدة صغيرة */
 
 *, *::before, *::after { box-sizing: border-box; }
 
-html { -webkit-text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: transparent; }
 
 body {
   margin: 0;
   font-family: var(--font);
-  font-size: 15px;
+  font-size: var(--fs-md);
   line-height: 1.6;
   color: var(--text);
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  caret-color: var(--primary);
+  accent-color: var(--primary);
 }
 
-h1, h2, h3, h4 { margin: 0; line-height: 1.3; font-weight: 600; }
-h1 { font-size: 1.5rem; letter-spacing: -0.01em; }
-h2 { font-size: 1.15rem; }
-h3 { font-size: 1rem; }
-p { margin: 0; }
+h1, h2, h3, h4 { margin: 0; line-height: 1.3; font-weight: 600; text-wrap: balance; }
+h1 { font-size: var(--fs-2xl); font-weight: 650; letter-spacing: -0.01em; }
+h2 { font-size: var(--fs-xl); }
+h3 { font-size: var(--fs-lg); }
+p { margin: 0; text-wrap: pretty; }
 
-a { color: var(--primary); text-decoration: none; }
+a { color: var(--primary); text-decoration: none; text-underline-offset: 0.25em; text-decoration-thickness: 1px; }
 a:hover { text-decoration: underline; }
 
 button, input, select, textarea { font: inherit; color: inherit; }
 
-:focus-visible { outline: none; box-shadow: var(--ring); border-radius: var(--radius-sm); }
+/* حلقة التركيز: خط واضح بمسافة، تظهر بالكيبورد بس */
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: var(--radius-sm); }
 
-::selection { background: var(--primary-soft); }
+::selection { background: var(--gold-soft); color: var(--text); }
+
+/* شريط التمرير رفيع وبلون الواجهة */
+* { scrollbar-width: thin; scrollbar-color: var(--border-strong) transparent; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 99px; border: 3px solid transparent; background-clip: padding-box; }
+::-webkit-scrollbar-track { background: transparent; }
 
 /* الأرقام والمبالغ: اتجاه ثابت LTR وعرض خانات متساوٍ كي تصطفّ في القوائم */
 .num {
   direction: ltr;
   unicode-bidi: isolate;
   font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
 }
 
 .muted { color: var(--text-muted); }
 .faint { color: var(--text-faint); }
-.small { font-size: 0.875rem; }
-.xsmall { font-size: 0.78rem; }
+.small { font-size: var(--fs-sm); }
+.xsmall { font-size: var(--fs-xs); }
 .bold { font-weight: 600; }
 .center { text-align: center; }
 .grow { flex: 1; min-width: 0; }
@@ -56,7 +66,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .row.start { align-items: flex-start; }
 .stack { display: flex; flex-direction: column; gap: 14px; }
 .stack.sm { gap: 8px; }
-.stack.lg { gap: 22px; }
+.stack.lg { gap: 24px; }
 
 .amount-income { color: var(--income); }
 .amount-expense { color: var(--expense); }
@@ -64,5 +74,5 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .amount-negative { color: var(--danger); }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
 }

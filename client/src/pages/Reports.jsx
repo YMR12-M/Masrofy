@@ -11,18 +11,55 @@ import { formatBps, formatDayMonth, formatMoney } from '../lib/format.js';
 import { useDocumentTitle } from '../lib/hooks.js';
 import { currentMonth } from '../lib/period.js';
 import { CategoryBars, ColumnsChart, Legend, trendPoints } from '../components/reports/Charts.jsx';
+import { Icon } from '../lib/icons.jsx';
 import {
-  Card, EmptyState, ErrorState, MonthNav, PageHead, Segmented, Skeleton, Stat,
+  Card, EmptyState, ErrorState, MoneyFigure, MonthNav, PageHead, Plate, Segmented, Skeleton,
 } from '../components/ui/index.js';
 
-/** «+12% عن الشهر اللي فات» — للمصروف الزيادة سيّئة وللدخل جيّدة */
+/**
+ * «12% أكتر من الشهر اللي فات» — للمصروف الزيادة سيّئة وللدخل جيّدة.
+ * الاتجاه بالسهم والكلمة، مش باللون بس.
+ */
 function change(current, previous, goodWhenUp) {
   if (!previous) return null;
   const bps = Math.round(((current - previous) * 10_000) / previous);
-  if (bps === 0) return 'زي الشهر اللي فات';
+  if (bps === 0) return <span className="change">زي الشهر اللي فات</span>;
   const up = bps > 0;
-  const tone = up === goodWhenUp ? 'var(--income)' : 'var(--expense)';
-  return <span style={{ color: tone }}>{up ? '▲' : '▼'} <span className="num">{formatBps(Math.abs(bps))}</span> عن الشهر اللي فات</span>;
+  const good = up === goodWhenUp;
+  return (
+    <span className="change" style={{ color: good ? 'var(--income-on-ink)' : 'var(--expense-on-ink)' }}>
+      <Icon name={up ? 'arrow-up' : 'arrow-down'} size={14} />
+      <span className="num">{formatBps(Math.abs(bps))}</span> {up ? 'أكتر' : 'أقل'} من الشهر اللي فات
+    </span>
+  );
+}
+
+/** لوحة الصفحة: صافي الشهر، والدخل والمصروف مع المقارنة، ونسبة الادخار */
+function MonthTotals({ data, currency }) {
+  const { totals, previous } = data;
+  return (
+    <Plate aria-label="أرقام الشهر">
+      <span className="plate-label">صافي الشهر</span>
+      <MoneyFigure className={`plate-figure ${totals.net_minor < 0 ? 'negative' : ''}`} minor={totals.net_minor} currency={currency} compact />
+      <div className="plate-stats">
+        <div>
+          <span className="plate-label"><Icon name="arrow-down" size={16} /> الدخل</span>
+          <b className="num">{formatMoney(totals.income_minor, currency)}</b>
+          {change(totals.income_minor, previous.income_minor, true)}
+        </div>
+        <div>
+          <span className="plate-label"><Icon name="arrow-up" size={16} /> المصروف</span>
+          <b className="num">{formatMoney(totals.expense_minor, currency)}</b>
+          {change(totals.expense_minor, previous.expense_minor, false)}
+        </div>
+        <div>
+          <span className="plate-label"><Icon name="safe" size={16} /> نسبة الادخار</span>
+          <b className="num">{totals.savings_rate_bps === null ? 'مفيش دخل' : formatBps(totals.savings_rate_bps)}</b>
+          <span className="change">من دخل الشهر</span>
+        </div>
+      </div>
+    </Plate>
+  );
 }
 
 export default function Reports() {
@@ -45,21 +82,12 @@ export default function Reports() {
       <PageHead title="التقارير" description="فلوسك راحت فين، وبتتغيّر إزاي من شهر للتاني" />
       <div><MonthNav month={month} onChange={setMonth} startDay={startDay} /></div>
 
-      {summary.isError && <ErrorState error={summary.error} onRetry={summary.refetch} />}
-      {summary.isLoading && <div className="grid cols-4">{[1, 2, 3, 4].map((key) => <Skeleton key={key} height={96} style={{ borderRadius: 12 }} />)}</div>}
+      {summary.isError && <Card><ErrorState error={summary.error} onRetry={summary.refetch} /></Card>}
+      {summary.isLoading && <Skeleton height={210} style={{ borderRadius: 20 }} />}
 
       {data && (
         <>
-          <div className="grid cols-4">
-            <Stat label="الدخل" icon="arrow-down" minor={data.totals.income_minor} currency={currency} tone="income" sub={change(data.totals.income_minor, data.previous.income_minor, true)} />
-            <Stat label="المصروف" icon="arrow-up" minor={data.totals.expense_minor} currency={currency} tone="expense" sub={change(data.totals.expense_minor, data.previous.expense_minor, false)} />
-            <Stat label="الصافي" minor={data.totals.net_minor} currency={currency} tone="auto" />
-            <div className="card stat">
-              <span className="label">نسبة الادخار</span>
-              <span className="value num">{data.totals.savings_rate_bps === null ? '—' : formatBps(data.totals.savings_rate_bps)}</span>
-              <span className="sub">من دخل الشهر</span>
-            </div>
-          </div>
+          <MonthTotals data={data} currency={currency} />
 
           <div className="grid cols-2">
             <Card
@@ -67,7 +95,7 @@ export default function Reports() {
               actions={<Segmented label="النوع" value={kind} onChange={setKind} options={[{ value: 'expense', label: 'مصروف' }, { value: 'income', label: 'دخل' }]} />}
             >
               {items.length === 0
-                ? <EmptyState emoji="📊" title={kind === 'expense' ? 'مفيش مصروف في الشهر ده' : 'مفيش دخل في الشهر ده'} />
+                ? <EmptyState icon="chart" title={kind === 'expense' ? 'مفيش مصروف في الشهر ده' : 'مفيش دخل في الشهر ده'} />
                 : <CategoryBars items={items} currency={currency} />}
             </Card>
 

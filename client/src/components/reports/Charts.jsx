@@ -101,7 +101,7 @@ export function ColumnsChart({ points, series = ['income', 'expense'], currency,
                     height={Math.max(0, pad.top + innerH - y(value))}
                     rx={Math.min(4, barW / 2)}
                   >
-                    <title>{`${point.label} — ${name === 'income' ? 'دخل' : 'مصروف'}: ${formatMoney(value, currency)}`}</title>
+                    <title>{`${point.label}، ${name === 'income' ? 'دخل' : 'مصروف'}: ${formatMoney(value, currency)}`}</title>
                   </rect>
                 );
               })}

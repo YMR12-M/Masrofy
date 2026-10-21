@@ -1,0 +1,647 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-21T05:20:27.579Z",
+  "title": "Design System: مصروفي",
+  "extensions": {
+    "colorMeta": {
+      "ink": {
+        "role": "primary",
+        "displayName": "Intaglio Bottle Green",
+        "canonical": "#0f3b2d",
+        "oklch": "oklch(31.8% 0.054 168.2)",
+        "tonalRamp": [
+          "#001207",
+          "#002c1f",
+          "#1f493a",
+          "#3d6858",
+          "#608b7a",
+          "#84b09e",
+          "#a9d6c4",
+          "#ccfbe8"
+        ]
+      },
+      "ink-raised": {
+        "role": "primary",
+        "displayName": "Raised Ink",
+        "canonical": "#16503d",
+        "oklch": "oklch(38.8% 0.068 167.3)",
+        "tonalRamp": [
+          "#001306",
+          "#002e1d",
+          "#0f4b38",
+          "#336a56",
+          "#568d78",
+          "#7ab39c",
+          "#a0d9c1",
+          "#c3fee5"
+        ]
+      },
+      "on-ink": {
+        "role": "neutral",
+        "displayName": "Ink Paper",
+        "canonical": "#eef5ef",
+        "oklch": "oklch(96.3% 0.011 149.9)",
+        "tonalRamp": [
+          "#080c09",
+          "#202621",
+          "#3c413d",
+          "#595f5a",
+          "#7c827d",
+          "#a0a7a1",
+          "#c6cdc7",
+          "#eaf1eb"
+        ]
+      },
+      "on-ink-muted": {
+        "role": "neutral",
+        "displayName": "Ink Paper Muted",
+        "canonical": "#a6c2b4",
+        "oklch": "oklch(78.9% 0.036 163.9)",
+        "tonalRamp": [
+          "#001007",
+          "#122a1f",
+          "#2d463b",
+          "#4b6458",
+          "#6d877a",
+          "#91ac9e",
+          "#b6d2c4",
+          "#daf7e8"
+        ]
+      },
+      "primary": {
+        "role": "primary",
+        "displayName": "Banknote Green",
+        "canonical": "#0e6a4c",
+        "oklch": "oklch(46.6% 0.094 164.6)",
+        "tonalRamp": [
+          "#001502",
+          "#003117",
+          "#004f32",
+          "#156e50",
+          "#419272",
+          "#68b795",
+          "#8edebb",
+          "#b2ffde"
+        ]
+      },
+      "primary-hover": {
+        "role": "primary",
+        "displayName": "Banknote Green Deep",
+        "canonical": "#0b5a40",
+        "oklch": "oklch(41.6% 0.084 164.5)",
+        "tonalRamp": [
+          "#001403",
+          "#003019",
+          "#004d34",
+          "#256c51",
+          "#4b9073",
+          "#70b697",
+          "#96dcbd",
+          "#baffe0"
+        ]
+      },
+      "primary-soft": {
+        "role": "primary",
+        "displayName": "Banknote Green Wash",
+        "canonical": "#dcebe2",
+        "oklch": "oklch(92.6% 0.020 159.7)",
+        "tonalRamp": [
+          "#040e08",
+          "#1c2721",
+          "#37433c",
+          "#54615a",
+          "#77847c",
+          "#9ba9a0",
+          "#c0cfc6",
+          "#e4f3ea"
+        ]
+      },
+      "on-primary": {
+        "role": "primary",
+        "displayName": "On Banknote Green",
+        "canonical": "#f6fbf8",
+        "oklch": "oklch(98.3% 0.007 160.1)",
+        "tonalRamp": [
+          "#090c0a",
+          "#212523",
+          "#3d413e",
+          "#5b5f5c",
+          "#7d817f",
+          "#a1a6a3",
+          "#c7ccc9",
+          "#ebf0ed"
+        ]
+      },
+      "gold": {
+        "role": "secondary",
+        "displayName": "Coin Gold",
+        "canonical": "#c9973a",
+        "oklch": "oklch(70.7% 0.123 79.6)",
+        "tonalRamp": [
+          "#230000",
+          "#411600",
+          "#613400",
+          "#815300",
+          "#a77605",
+          "#cd9b3f",
+          "#f5c167",
+          "#ffe58b"
+        ]
+      },
+      "gold-bright": {
+        "role": "secondary",
+        "displayName": "Coin Gold Bright",
+        "canonical": "#e2bb55",
+        "oklch": "oklch(80.7% 0.128 88.2)",
+        "tonalRamp": [
+          "#1f0000",
+          "#3d1a00",
+          "#5b3800",
+          "#7b5700",
+          "#a07a00",
+          "#c69f36",
+          "#edc660",
+          "#ffea85"
+        ]
+      },
+      "gold-text": {
+        "role": "secondary",
+        "displayName": "Coin Gold Text",
+        "canonical": "#87621a",
+        "oklch": "oklch(52.2% 0.097 79.4)",
+        "tonalRamp": [
+          "#1f0100",
+          "#3c1b00",
+          "#5a3800",
+          "#7a5606",
+          "#9f7935",
+          "#c59e5b",
+          "#edc480",
+          "#ffe8a3"
+        ]
+      },
+      "gold-soft": {
+        "role": "secondary",
+        "displayName": "Coin Gold Wash",
+        "canonical": "#f4e7c6",
+        "oklch": "oklch(93.0% 0.046 89.1)",
+        "tonalRamp": [
+          "#130900",
+          "#2d2306",
+          "#493f23",
+          "#685d40",
+          "#8b7f61",
+          "#b0a484",
+          "#d6caa9",
+          "#fbeecd"
+        ]
+      },
+      "underprint": {
+        "role": "neutral",
+        "displayName": "Sage Underprint",
+        "canonical": "#ecf0eb",
+        "oklch": "oklch(95.1% 0.008 139.4)",
+        "tonalRamp": [
+          "#090c09",
+          "#222521",
+          "#3e413d",
+          "#5b5f5a",
+          "#7e817d",
+          "#a2a6a1",
+          "#c8ccc7",
+          "#ecf0eb"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Note Paper",
+        "canonical": "#fbfcfa",
+        "oklch": "oklch(99.0% 0.003 128.5)",
+        "tonalRamp": [
+          "#0b0b0a",
+          "#242423",
+          "#3f403e",
+          "#5d5e5c",
+          "#80807f",
+          "#a4a5a3",
+          "#cacbc9",
+          "#eeefed"
+        ]
+      },
+      "surface-2": {
+        "role": "neutral",
+        "displayName": "Note Paper Shade",
+        "canonical": "#f3f6f2",
+        "oklch": "oklch(97.0% 0.006 137.8)",
+        "tonalRamp": [
+          "#0a0c09",
+          "#232522",
+          "#3e403d",
+          "#5c5e5b",
+          "#7e817d",
+          "#a3a5a2",
+          "#c9cbc8",
+          "#ecefeb"
+        ]
+      },
+      "surface-3": {
+        "role": "neutral",
+        "displayName": "Note Paper Track",
+        "canonical": "#e3e9e3",
+        "oklch": "oklch(92.8% 0.010 145.5)",
+        "tonalRamp": [
+          "#090c09",
+          "#212521",
+          "#3c413c",
+          "#5a5f5a",
+          "#7c827d",
+          "#a1a6a1",
+          "#c6ccc6",
+          "#eaf0ea"
+        ]
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "#d8e0d9",
+        "oklch": "oklch(89.9% 0.013 149.2)",
+        "tonalRamp": [
+          "#080d08",
+          "#202621",
+          "#3b423c",
+          "#59605a",
+          "#7b827c",
+          "#9fa7a0",
+          "#c5cdc6",
+          "#e9f1ea"
+        ]
+      },
+      "border-strong": {
+        "role": "neutral",
+        "displayName": "Strong Hairline",
+        "canonical": "#b9c7bd",
+        "oklch": "oklch(81.6% 0.021 154.8)",
+        "tonalRamp": [
+          "#050e07",
+          "#1c2720",
+          "#37433b",
+          "#556159",
+          "#77847b",
+          "#9ba99f",
+          "#c1cfc5",
+          "#e4f3e8"
+        ]
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "Green-black Ink",
+        "canonical": "#13221c",
+        "oklch": "oklch(23.6% 0.024 167.3)",
+        "tonalRamp": [
+          "#020e09",
+          "#192822",
+          "#34443d",
+          "#51625b",
+          "#73857d",
+          "#97aaa1",
+          "#bdd0c7",
+          "#e0f4eb"
+        ]
+      },
+      "text-muted": {
+        "role": "neutral",
+        "displayName": "Muted Ink",
+        "canonical": "#4a5c54",
+        "oklch": "oklch(45.7% 0.026 166.5)",
+        "tonalRamp": [
+          "#020f09",
+          "#182821",
+          "#33443d",
+          "#50625a",
+          "#72857d",
+          "#96aaa1",
+          "#bcd0c7",
+          "#dff4eb"
+        ]
+      },
+      "text-faint": {
+        "role": "neutral",
+        "displayName": "Faint Ink",
+        "canonical": "#5d6d65",
+        "oklch": "oklch(51.9% 0.023 163.9)",
+        "tonalRamp": [
+          "#030e09",
+          "#1a2821",
+          "#35443c",
+          "#52625a",
+          "#74857c",
+          "#98a9a1",
+          "#bed0c6",
+          "#e1f4ea"
+        ]
+      },
+      "income": {
+        "role": "tertiary",
+        "displayName": "Income Green",
+        "canonical": "#0f7a4f",
+        "oklch": "oklch(51.3% 0.113 159.4)",
+        "tonalRamp": [
+          "#001600",
+          "#00320d",
+          "#005029",
+          "#007046",
+          "#369468",
+          "#5eba8b",
+          "#85e1b0",
+          "#aaffd4"
+        ]
+      },
+      "expense-sienna": {
+        "role": "tertiary",
+        "displayName": "Banknote Sienna",
+        "canonical": "#a33b27",
+        "oklch": "oklch(49.6% 0.142 32.9)",
+        "tonalRamp": [
+          "#300000",
+          "#530000",
+          "#771400",
+          "#9c3724",
+          "#c55c47",
+          "#ed826c",
+          "#ffa991",
+          "#ffcdb5"
+        ]
+      },
+      "transfer-indigo": {
+        "role": "tertiary",
+        "displayName": "Note Indigo",
+        "canonical": "#2f4d8c",
+        "oklch": "oklch(43.1% 0.110 -96.7)",
+        "tonalRamp": [
+          "#000038",
+          "#051d58",
+          "#1f3c79",
+          "#3c5b9b",
+          "#5d7fc2",
+          "#80a4ea",
+          "#a5caff",
+          "#c8efff"
+        ]
+      },
+      "warning": {
+        "role": "tertiary",
+        "displayName": "Warning Ochre",
+        "canonical": "#835600",
+        "oklch": "oklch(49.1% 0.104 74.1)",
+        "tonalRamp": [
+          "#220000",
+          "#401700",
+          "#5f3400",
+          "#805300",
+          "#a57630",
+          "#cb9b56",
+          "#f3c17c",
+          "#ffe59f"
+        ]
+      },
+      "danger": {
+        "role": "tertiary",
+        "displayName": "Danger Red",
+        "canonical": "#b02a1c",
+        "oklch": "oklch(49.9% 0.173 30.1)",
+        "tonalRamp": [
+          "#300000",
+          "#530000",
+          "#781209",
+          "#9d372a",
+          "#c55b4c",
+          "#ee8170",
+          "#ffa896",
+          "#ffccb9"
+        ]
+      },
+      "expense-on-ink": {
+        "role": "tertiary",
+        "displayName": "Sienna on Ink",
+        "canonical": "#ff9d86",
+        "oklch": "oklch(79.1% 0.122 34.0)",
+        "tonalRamp": [
+          "#2e0000",
+          "#500000",
+          "#721d09",
+          "#963e2b",
+          "#be624d",
+          "#e68771",
+          "#ffad95",
+          "#ffd0b8"
+        ]
+      },
+      "income-on-ink": {
+        "role": "tertiary",
+        "displayName": "Income on Ink",
+        "canonical": "#7ee0b1",
+        "oklch": "oklch(83.4% 0.115 161.6)",
+        "tonalRamp": [
+          "#001600",
+          "#003310",
+          "#00512b",
+          "#007148",
+          "#2d956a",
+          "#58bb8e",
+          "#80e2b3",
+          "#a5ffd6"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "denomination": {
+        "displayName": "Denomination",
+        "purpose": "The plate figure: big pounds, small piastres and currency, tabular digits."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Page titles."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Card titles and section heads."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "All running UI text."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Metadata, hints, plate labels, tab labels."
+      },
+      "wordmark": {
+        "displayName": "Wordmark",
+        "purpose": "The Ruqaa wordmark مصروفي only."
+      }
+    },
+    "shadows": [
+      {
+        "name": "hairline",
+        "value": "0 1px 2px rgb(15 59 45 / 7%)",
+        "purpose": "Segmented active pill, switch knob."
+      },
+      {
+        "name": "soft",
+        "value": "0 1px 2px rgb(15 59 45 / 6%), 0 8px 24px -8px rgb(15 59 45 / 14%)",
+        "purpose": "Plates and hovered clickable cards."
+      },
+      {
+        "name": "lifted",
+        "value": "0 24px 56px -12px rgb(15 59 45 / 28%)",
+        "purpose": "Dialogs, menus, drawer, toasts."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "All state transitions, sheets, dialogs, the rosette engraving."
+      },
+      {
+        "name": "engrave",
+        "value": "1.4s ease-out, spend band delayed 0.18s",
+        "purpose": "The one authored moment: rosette lines draw in once, visible by default."
+      },
+      {
+        "name": "press",
+        "value": "scale(0.97) over 0.12s",
+        "purpose": "Button press feedback."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "phone",
+        "value": "640px"
+      },
+      {
+        "name": "plate-compact",
+        "value": "760px"
+      },
+      {
+        "name": "tab-bar",
+        "value": "900px"
+      },
+      {
+        "name": "split-stack",
+        "value": "1080px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The main action of a region.",
+      "html": "<button class=\"ds-btn-primary\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"><path d=\"M12 5v14M5 12h14\"/></svg>عملية جديدة</button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:0 16px;border:0;border-radius:10px;background:#0e6a4c;color:#f6fbf8;font:500 15px \"Readex Pro Variable\",system-ui,sans-serif;cursor:pointer;box-shadow:0 1px 2px rgb(15 59 45 / 18%);transition:background-color .18s cubic-bezier(.16,1,.3,1),transform .12s}.ds-btn-primary:hover{background:#0b5a40}.ds-btn-primary:focus-visible{outline:2px solid #0e6a4c;outline-offset:2px}.ds-btn-primary:active{transform:scale(.97)}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Supporting actions.",
+      "html": "<button class=\"ds-btn-secondary\">حفظ وإضافة غيرها</button>",
+      "css": ".ds-btn-secondary{min-height:42px;padding:0 16px;border:1px solid #b9c7bd;border-radius:10px;background:#fbfcfa;color:#13221c;font:500 15px \"Readex Pro Variable\",system-ui,sans-serif;cursor:pointer}.ds-btn-secondary:hover{background:#f3f6f2;border-color:#5d6d65}.ds-btn-secondary:focus-visible{outline:2px solid #0e6a4c;outline-offset:2px}"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Label above, hint or error below.",
+      "html": "<label class=\"ds-field\" dir=\"rtl\"><span>فين / لمين؟</span><input placeholder=\"مثلًا: كارفور\"></label>",
+      "css": ".ds-field{display:flex;flex-direction:column;gap:6px;font:500 14px \"Readex Pro Variable\",system-ui,sans-serif;color:#13221c}.ds-field input{min-height:44px;padding:10px 12px;border:1px solid #b9c7bd;border-radius:10px;background:#fbfcfa;font:400 15px \"Readex Pro Variable\",system-ui,sans-serif}.ds-field input:hover{border-color:#5d6d65}.ds-field input:focus{outline:none;border-color:#0e6a4c;box-shadow:0 0 0 3px rgb(14 106 76 / 22%)}"
+    },
+    {
+      "name": "Rail Navigation",
+      "kind": "nav",
+      "refersTo": "nav-rail",
+      "description": "Desktop ink rail; active item gets a light wash and a gold icon.",
+      "html": "<nav class=\"ds-rail\" dir=\"rtl\"><a class=\"on\" href=\"#\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"><path d=\"M3 10.5 12 3l9 7.5\"/><path d=\"M5 9.5V21h14V9.5\"/></svg>الرئيسية</a><a href=\"#\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"><path d=\"M9 6h12M9 12h12M9 18h12\"/></svg>العمليات</a></nav>",
+      "css": ".ds-rail{display:flex;flex-direction:column;gap:2px;width:248px;padding:14px;background:#0f3b2d}.ds-rail a{display:flex;align-items:center;gap:12px;min-height:44px;padding:10px 12px;border-radius:10px;color:#a6c2b4;text-decoration:none;font:500 15px \"Readex Pro Variable\",system-ui,sans-serif}.ds-rail a:hover{background:rgb(255 255 255 / 6%);color:#eef5ef}.ds-rail a.on{background:rgb(255 255 255 / 10%);color:#eef5ef;font-weight:600}.ds-rail a.on svg{color:#e2bb55}"
+    },
+    {
+      "name": "Plate",
+      "kind": "card",
+      "refersTo": "plate",
+      "description": "One reversed plate per screen for its key figure.",
+      "html": "<section class=\"ds-plate\" dir=\"rtl\"><span class=\"lbl\">المتبقّي من الشهر</span><span class=\"fig\"><span class=\"amt\">9,489<small>.50</small></span><span class=\"cur\">ج.م.</span></span><span class=\"row\">دخل <b>26,500 ج.م.</b> · مصروف <b>17,010.50 ج.م.</b></span></section>",
+      "css": ".ds-plate{position:relative;display:flex;flex-direction:column;gap:6px;padding:26px 30px;border-radius:20px;color:#eef5ef;background:radial-gradient(120% 160% at 100% 0%,#16503d 0%,#0f3b2d 58%);box-shadow:0 1px 2px rgb(15 59 45 / 6%),0 8px 24px -8px rgb(15 59 45 / 14%);font-family:\"Readex Pro Variable\",system-ui,sans-serif}.ds-plate::after{content:\"\";position:absolute;inset:7px;border:1px solid rgb(238 245 239 / 14%);border-radius:14px;pointer-events:none}.ds-plate .lbl{font-size:14px;color:#a6c2b4}.ds-plate .fig{display:inline-flex;align-items:baseline;gap:.3em;font-size:52px;line-height:1}.ds-plate .amt{direction:ltr;font-weight:650;letter-spacing:-.02em;font-variant-numeric:tabular-nums}.ds-plate small{font-size:.42em;font-weight:500;opacity:.8}.ds-plate .cur{font-size:.34em;opacity:.8}.ds-plate .row{font-size:14px;color:#a6c2b4;margin-top:10px}.ds-plate b{color:#eef5ef}"
+    },
+    {
+      "name": "Coin Button",
+      "kind": "custom",
+      "refersTo": "coin-button",
+      "description": "Phone add action in the tab bar: flat gold, one engraved ring.",
+      "html": "<div class=\"ds-coin-bar\"><button class=\"ds-coin\" aria-label=\"عملية جديدة\"><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\"><path d=\"M12 5v14M5 12h14\"/></svg></button></div>",
+      "css": ".ds-coin-bar{display:grid;place-items:center;height:64px;padding-top:26px;background:#0f3b2d}.ds-coin{position:relative;width:60px;height:60px;margin-top:-52px;border:0;border-radius:50%;display:grid;place-items:center;background:#e2bb55;color:#0f3b2d;cursor:pointer;box-shadow:0 0 0 4px #0f3b2d,0 10px 22px -8px rgb(0 0 0 / 55%);transition:transform .16s}.ds-coin::after{content:\"\";position:absolute;width:46px;height:46px;border-radius:50%;border:1px solid rgb(15 59 45 / 40%)}.ds-coin:active{transform:scale(.93)}.ds-coin:focus-visible{outline:2px solid #eef5ef;outline-offset:5px}"
+    },
+    {
+      "name": "Status Badge",
+      "kind": "chip",
+      "refersTo": "badge",
+      "description": "Pill badges for status, always with a word.",
+      "html": "<span class=\"ds-badge ok\">في الأمان</span> <span class=\"ds-badge over\">عدّت الحدّ</span>",
+      "css": ".ds-badge{display:inline-flex;padding:2px 9px;border-radius:99px;font:500 12.5px \"Readex Pro Variable\",system-ui,sans-serif;background:#e3e9e3;color:#4a5c54}.ds-badge.ok{background:#ddefe4;color:#0f7a4f}.ds-badge.over{background:#f9e2df;color:#b02a1c}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Household Banknote",
+    "overview": "مصروفي is the money of one Egyptian family, so the interface borrows the one object every member handles daily: the banknote. The shell and the most important number on each screen are printed in intaglio bottle green with fine guilloche line-work, the coin from the logo is the only metallic, and everything else is a quiet, cool sage underprint so the numbers stay legible. It is an Operate surface: the world lends type, palette, density and one signature move; navigation, forms, lists and dialogs stay standard web controls in Arabic right-to-left.\n\nThe signature move is the **rosette**: a guilloche ring drawn from the month's own data. The outer white band is the share of the financial month already elapsed; the inner gold band is the share of income already spent. When gold runs ahead of white, the family is spending faster than the calendar. Every other decision supports reading money exactly: tabular digits, a denomination split (big pounds, small piastres and currency), and fixed semantic colors for income, expense and transfer.\n\nDensity is a daily-app middle: generous rows (60px) for touch, compact labels, one plate per screen. Light and dark are both first-class; the theme follows the device unless the person picks one.",
+    "keyCharacteristics": [
+      "Ink green shell (desktop rail, mobile tab bar, plates) in both themes.",
+      "One reversed plate per screen carrying that screen's key figure.",
+      "Data-driven guilloche rosette on the dashboard and budgets plates.",
+      "Gold only from the coin: add button, active nav icon, security thread, spent arc.",
+      "Cool sage underprint ground, never cream.",
+      "Egyptian colloquial copy, no em dashes, no decorative emoji."
+    ],
+    "rules": [
+      {
+        "name": "The One Metal Rule",
+        "body": "Gold appears only as the coin's metal and only where something is the brand or the current state: the add button, the active destination, the security thread, the spent arc. Never as a generic accent or a hover color.",
+        "section": "colors"
+      },
+      {
+        "name": "The Fixed Money Rule",
+        "body": "Income is green, expense is sienna, transfer is indigo, on every screen, in both themes, and always paired with a sign or an arrow so color is never the only signal.",
+        "section": "colors"
+      },
+      {
+        "name": "The Eight Sizes Rule",
+        "body": "Type uses only the eight steps from 0.78rem to 3.25rem defined as tokens. A new size needs a new token, not a one-off value.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tabular Money Rule",
+        "body": "Every amount, count and percentage is set in an isolated left-to-right span with tabular figures, so columns align and signs stay attached to their numbers in right-to-left text.",
+        "section": "typography"
+      },
+      {
+        "name": "The Printed Not Pressed Rule",
+        "body": "The world is print. No bevels, embossing, highlight gradients or inset shading to imitate metal or relief; the coin is flat gold with one engraved ring.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** give each screen exactly one plate, for its most important figure.",
+      "**Do** show amounts with `MoneyFigure` on plates and `.num` spans in lists, always tabular and isolated.",
+      "**Do** pair every money color with a sign, an arrow, or a word.",
+      "**Do** use the project's own line icons (24px, 1.8 stroke) for every icon, including empty states.",
+      "**Do** write copy in friendly Egyptian colloquial with periods and commas."
+    ],
+    "donts": [
+      "**Don't** use a cream or warm-paper ground; the underprint is cool sage.",
+      "**Don't** use gold for anything but the coin's roles listed above.",
+      "**Don't** add bevels, highlight gradients or inset shading to fake metal or relief.",
+      "**Don't** put decorative emoji in UI copy or empty states (category emoji chosen by the family are content and stay).",
+      "**Don't** use em dashes in visible copy.",
+      "**Don't** put a colored side stripe on cards, rows or notices."
+    ]
+  }
+}

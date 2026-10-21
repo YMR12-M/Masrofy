@@ -206,7 +206,7 @@ export default function Members() {
       <Card title="مين يشوف إيه؟">
         <ul className="stack sm small muted" style={{ margin: 0, paddingInlineStart: 18 }}>
           {ROLE_ORDER.map((role) => <li key={role}><b style={{ color: 'var(--text)' }}>{ROLE_LABELS[role]}:</b> {ROLE_HINTS[role]}</li>)}
-          <li>الحساب الخاص بأي فرد مش بيظهر لغيره — ولا حتى لصاحب الأسرة.</li>
+          <li>الحساب الخاص بأي فرد مش بيظهر لغيره، ولا حتى لصاحب الأسرة.</li>
         </ul>
       </Card>
 

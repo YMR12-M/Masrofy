@@ -3,11 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#f5f3ee" />
+    <meta name="theme-color" content="#ecf0eb" />
     <meta name="color-scheme" content="light dark" />
     <meta name="description" content="مصروفي — مصروفات البيت والأسرة في مكان واحد" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>مصروفي</title>
+    <script>
+      // المظهر قبل ما React يحمّل، عشان الوضع الداكن ميبانش فاتح للحظة
+      try {
+        var pref = JSON.parse(localStorage.getItem('masrofy.theme') || '"auto"');
+        var dark = pref === 'dark' || (pref === 'auto' && matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+      } catch (e) { /* وضع خاص: نكمّل بالفاتح */ }
+    </script>
   </head>
   <body>
     <div id="root"></div>

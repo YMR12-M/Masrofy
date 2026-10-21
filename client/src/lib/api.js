@@ -122,7 +122,7 @@ async function rawRequest(path, { method = 'GET', body, params, auth = true, ret
       body: body === undefined ? undefined : JSON.stringify(body),
     });
   } catch {
-    throw new ApiRequestError('تعذّر الاتصال بالخادم — تأكد من الإنترنت', { offline: true });
+    throw new ApiRequestError('معرفناش نوصل للسيرفر. اتأكد من الإنترنت', { offline: true });
   }
 
   if (response.status === 204) return { data: null };

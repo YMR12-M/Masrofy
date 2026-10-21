@@ -68,7 +68,7 @@ function CategoryDialog({ category, kind, parentId, parents, onClose }) {
         <Field label="تحت تصنيف" hint={hasChildren ? 'التصنيف ده له فروع، فلازم يفضل رئيسي' : 'سيبه فاضي لو تصنيف رئيسي'} error={form.errors.parent_id}>
           {(props) => (
             <Select {...props} value={values.parent_id} onChange={form.on('parent_id')} disabled={hasChildren}>
-              <option value="">— رئيسي —</option>
+              <option value="">رئيسي (من غير أب)</option>
               {parents.filter((parent) => parent.id !== category?.id).map((parent) => (
                 <option key={parent.id} value={parent.id}>{parent.icon} {parent.name}</option>
               ))}

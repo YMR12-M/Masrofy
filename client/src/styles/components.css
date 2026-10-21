@@ -1,30 +1,37 @@
-/* ═══ المكوّنات المشتركة: أزرار، حقول، بطاقات، شارات، نوافذ… ═══ */
+/* ═══ المكوّنات المشتركة: أزرار، حقول، بطاقات، شارات، نوافذ، واللوحة ═══ */
 
 /* ── الأزرار ─────────────────────────────────────────────── */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  min-height: 40px; padding: 0 16px;
+  min-height: 42px; padding: 0 16px;
   border: 1px solid transparent; border-radius: var(--radius-sm);
-  font-weight: 500; font-size: 0.94rem; white-space: nowrap;
+  font-weight: 500; font-size: var(--fs-md); white-space: nowrap;
   cursor: pointer; text-decoration: none !important;
-  transition: background-color 0.15s var(--ease), border-color 0.15s var(--ease), color 0.15s var(--ease), transform 0.1s var(--ease);
+  transition: background-color 0.18s var(--ease), border-color 0.18s var(--ease), color 0.18s var(--ease), transform 0.12s var(--ease), box-shadow 0.18s var(--ease);
 }
-.btn:active:not(:disabled) { transform: translateY(1px); }
-.btn:disabled { opacity: 0.55; cursor: not-allowed; }
-.btn.primary { background: var(--primary); color: var(--on-primary); }
+.btn:active:not(:disabled) { transform: scale(0.97); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn.primary { background: var(--primary); color: var(--on-primary); box-shadow: 0 1px 2px rgb(15 59 45 / 18%); }
 .btn.primary:hover:not(:disabled) { background: var(--primary-hover); }
 .btn.secondary { background: var(--surface); border-color: var(--border-strong); color: var(--text); }
-.btn.secondary:hover:not(:disabled) { background: var(--surface-2); }
+.btn.secondary:hover:not(:disabled) { background: var(--surface-2); border-color: var(--text-faint); }
 .btn.ghost { background: transparent; color: var(--text-muted); }
 .btn.ghost:hover:not(:disabled) { background: var(--surface-3); color: var(--text); }
 .btn.danger { background: var(--danger); color: #fff; }
+.btn.danger:hover:not(:disabled) { filter: brightness(0.94); }
 .btn.danger-ghost { background: transparent; color: var(--danger); }
 .btn.danger-ghost:hover:not(:disabled) { background: var(--danger-soft); }
-.btn.sm { min-height: 32px; padding: 0 10px; font-size: 0.85rem; }
-.btn.lg { min-height: 48px; padding: 0 22px; font-size: 1rem; }
+.btn.sm { min-height: 34px; padding: 0 12px; font-size: var(--fs-sm); }
+.btn.lg { min-height: 50px; padding: 0 22px; font-size: var(--fs-lg); }
 .btn.block { width: 100%; }
-.btn.icon { padding: 0; width: 40px; }
-.btn.icon.sm { width: 32px; }
+.btn.icon { padding: 0; width: 42px; }
+.btn.icon.sm { width: 34px; }
+
+/* اختصار لوحة المفاتيح جوّه الزرار */
+kbd {
+  font-family: var(--font); font-size: var(--fs-xs); line-height: 1; font-weight: 600;
+  padding: 3px 6px; border-radius: 6px; border: 1px solid currentColor; opacity: 0.6;
+}
 
 .spinner {
   width: 18px; height: 18px; border-radius: 50%;
@@ -35,46 +42,52 @@
 
 /* ── الحقول ──────────────────────────────────────────────── */
 .field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-.field > label { font-size: 0.88rem; font-weight: 500; color: var(--text); }
+.field > label { font-size: var(--fs-sm); font-weight: 500; color: var(--text); }
 .field .req { color: var(--danger); margin-inline-start: 3px; }
-.field .hint { font-size: 0.8rem; color: var(--text-faint); }
-.field .error { font-size: 0.82rem; color: var(--danger); }
+.field .hint { font-size: var(--fs-xs); color: var(--text-faint); }
+.field .error { font-size: var(--fs-xs); color: var(--danger); font-weight: 500; }
 
 .input, .select, .textarea {
-  width: 100%; min-height: 42px; padding: 9px 12px;
+  width: 100%; min-height: 44px; padding: 10px 12px;
   background: var(--surface); border: 1px solid var(--border-strong); border-radius: var(--radius-sm);
-  transition: border-color 0.15s var(--ease), box-shadow 0.15s var(--ease);
+  transition: border-color 0.15s var(--ease), box-shadow 0.15s var(--ease), background-color 0.15s var(--ease);
 }
+.input:hover:not(:disabled), .select:hover:not(:disabled), .textarea:hover:not(:disabled) { border-color: var(--text-faint); }
 .textarea { resize: vertical; min-height: 80px; }
-.input:focus, .select:focus, .textarea:focus { outline: none; border-color: var(--primary); box-shadow: var(--ring); }
+.input:focus, .select:focus, .textarea:focus {
+  outline: none; border-color: var(--primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 22%, transparent);
+}
+.input:disabled, .select:disabled { background: var(--surface-2); color: var(--text-muted); cursor: not-allowed; }
 .input[aria-invalid='true'], .select[aria-invalid='true'] { border-color: var(--danger); }
 .input::placeholder { color: var(--text-faint); }
 .ltr-input { direction: ltr; text-align: end; }
 .select {
-  appearance: none; padding-inline-end: 34px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237d8782' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  appearance: none; padding-inline-end: 36px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235d6d65' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   background-repeat: no-repeat; background-position: left 12px center;
 }
 
 .input-group { display: flex; align-items: stretch; }
 .input-group .input { border-start-end-radius: 0; border-end-end-radius: 0; }
 .input-group .addon {
-  display: flex; align-items: center; padding: 0 12px;
+  display: flex; align-items: center; padding: 0 14px;
   background: var(--surface-3); border: 1px solid var(--border-strong); border-inline-start: 0;
   border-start-end-radius: var(--radius-sm); border-end-end-radius: var(--radius-sm);
-  color: var(--text-muted); font-size: 0.88rem; white-space: nowrap;
+  color: var(--text-muted); font-size: var(--fs-sm); white-space: nowrap;
 }
-/* الحقل المالي الكبير في نموذج العملية */
-.amount-input .input { font-size: 1.6rem; font-weight: 600; min-height: 58px; }
+/* الحقل المالي الكبير في نموذج العملية: المبلغ هو الحقل الأهم في التطبيق */
+.amount-input .input { font-size: var(--fs-3xl); font-weight: 650; min-height: 68px; letter-spacing: -0.01em; }
+.amount-input .addon { font-size: var(--fs-lg); font-weight: 500; }
 
 .search-input { position: relative; }
 .search-input svg { position: absolute; inset-inline-start: 12px; top: 50%; transform: translateY(-50%); color: var(--text-faint); pointer-events: none; }
-.search-input .input { padding-inline-start: 38px; }
+.search-input .input { padding-inline-start: 40px; }
 
 .check { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
 .check input { width: 18px; height: 18px; accent-color: var(--primary); }
 
-.switch { position: relative; display: inline-block; width: 42px; height: 24px; flex: none; }
+.switch { position: relative; display: inline-block; width: 44px; height: 26px; flex: none; }
 .switch input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
 .switch span {
   position: absolute; inset: 0; border-radius: 99px; background: var(--border-strong);
@@ -82,12 +95,12 @@
 }
 .switch span::after {
   content: ''; position: absolute; top: 3px; inset-inline-start: 3px;
-  width: 18px; height: 18px; border-radius: 50%; background: #fff; box-shadow: var(--shadow-sm);
-  transition: transform 0.2s var(--ease);
+  width: 20px; height: 20px; border-radius: 50%; background: var(--surface); box-shadow: var(--shadow-sm);
+  transition: transform 0.25s var(--ease);
 }
 .switch input:checked + span { background: var(--primary); }
 .switch input:checked + span::after { transform: translateX(-18px); }
-.switch input:focus-visible + span { box-shadow: var(--ring); }
+.switch input:focus-visible + span { outline: 2px solid var(--focus); outline-offset: 2px; }
 
 /* أزرار مجمّعة: نوع العملية، الفترة… */
 .segmented {
@@ -95,27 +108,32 @@
   background: var(--surface-3); border-radius: var(--radius-sm);
 }
 .segmented button {
-  border: 0; background: transparent; padding: 6px 14px; border-radius: 6px;
-  color: var(--text-muted); font-weight: 500; font-size: 0.9rem; cursor: pointer;
+  border: 0; background: transparent; padding: 7px 14px; border-radius: 8px; min-height: 36px;
+  color: var(--text-muted); font-weight: 500; font-size: var(--fs-sm); cursor: pointer;
   display: inline-flex; align-items: center; gap: 6px;
+  transition: background-color 0.18s var(--ease), color 0.18s var(--ease), box-shadow 0.18s var(--ease);
 }
-.segmented button[aria-pressed='true'] { background: var(--surface); color: var(--text); box-shadow: var(--shadow-sm); }
+.segmented button:hover { color: var(--text); }
+.segmented button[aria-pressed='true'] { background: var(--surface); color: var(--text); font-weight: 600; box-shadow: var(--shadow-sm); }
 .segmented.block { display: flex; }
-.segmented.block button { flex: 1; justify-content: center; }
+.segmented.block button { flex: 1; justify-content: center; min-height: 42px; font-size: var(--fs-md); }
 .segmented .tone-expense[aria-pressed='true'] { color: var(--expense); }
 .segmented .tone-income[aria-pressed='true'] { color: var(--income); }
 .segmented .tone-transfer[aria-pressed='true'] { color: var(--transfer); }
 
 /* اختيار الإيموجي واللون */
-.picker-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); gap: 6px; }
+.picker-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(42px, 1fr)); gap: 6px; }
 .picker-grid button {
-  height: 40px; border-radius: var(--radius-sm); border: 1px solid var(--border);
+  height: 42px; border-radius: var(--radius-sm); border: 1px solid var(--border);
   background: var(--surface); font-size: 1.25rem; cursor: pointer;
+  transition: border-color 0.15s var(--ease), transform 0.12s var(--ease);
 }
-.picker-grid button[aria-pressed='true'] { border-color: var(--primary); box-shadow: var(--ring); }
+.picker-grid button:hover { border-color: var(--border-strong); }
+.picker-grid button:active { transform: scale(0.94); }
+.picker-grid button[aria-pressed='true'] { border-color: var(--primary); background: var(--primary-soft); }
 .swatches { display: flex; flex-wrap: wrap; gap: 8px; }
 .swatches button {
-  width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--surface);
+  width: 32px; height: 32px; border-radius: 50%; border: 3px solid var(--surface);
   box-shadow: 0 0 0 1px var(--border-strong); cursor: pointer;
 }
 .swatches button[aria-pressed='true'] { box-shadow: 0 0 0 2px var(--text); }
@@ -123,27 +141,153 @@
 /* ── البطاقات ─────────────────────────────────────────────── */
 .card {
   background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); box-shadow: var(--shadow-sm); min-width: 0;
+  border-radius: var(--radius); min-width: 0;
 }
 .card-head {
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  padding: 14px 18px; border-bottom: 1px solid var(--border);
+  padding: 16px 20px 12px;
 }
-.card-title { font-size: 1rem; font-weight: 600; }
-.card-body { padding: 18px; }
+.card-title { font-size: var(--fs-lg); font-weight: 600; }
+.card-body { padding: 4px 20px 20px; }
+.card-head + .card-body.flush { border-top: 1px solid var(--border); }
 .card-body.flush { padding: 0; }
-.card-foot { padding: 12px 18px; border-top: 1px solid var(--border); }
+.card > .card-body:first-child { padding-top: 20px; }
+.card > .card-body.flush:first-child { padding-top: 0; }
+.card-foot { padding: 12px 20px; border-top: 1px solid var(--border); }
 
-.stat { padding: 16px 18px; display: flex; flex-direction: column; gap: 4px; }
-.stat .label { font-size: 0.85rem; color: var(--text-muted); }
-.stat .value { font-size: 1.45rem; font-weight: 600; display: flex; align-items: baseline; gap: 6px; }
-.stat .unit { font-size: 0.8rem; color: var(--text-faint); font-weight: 400; }
-.stat .sub { font-size: 0.8rem; color: var(--text-faint); }
+/* رابط «الكل» في رأس البطاقة */
+.card-link {
+  display: inline-flex; align-items: center; gap: 2px; font-size: var(--fs-sm); font-weight: 500;
+  padding: 4px 6px; margin: -4px -6px; border-radius: 8px;
+}
+.card-link:hover { background: var(--primary-soft); text-decoration: none; }
+
+.stat { padding: 16px 20px; display: flex; flex-direction: column; gap: 4px; }
+.stat .label { font-size: var(--fs-sm); color: var(--text-muted); }
+.stat .value { font-size: var(--fs-xl); font-weight: 650; display: flex; align-items: baseline; gap: 6px; }
+.stat .sub { font-size: var(--fs-xs); color: var(--text-faint); }
+
+/* ── اللوحة (البنكنوت): رقم الصفحة الأهم، واحدة بس في كل شاشة ── */
+.plate {
+  position: relative; isolation: isolate; overflow: hidden;
+  display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 0 28px;
+  padding: 26px 30px; border-radius: var(--radius-lg);
+  color: var(--on-ink);
+  background: radial-gradient(120% 160% at 100% 0%, var(--ink-2) 0%, var(--ink) 58%);
+  box-shadow: var(--shadow);
+}
+/* النقش: موجات الجيلوش، أقوى ناحية الوردة وبتختفي عند الرقم */
+.plate::before {
+  content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background-image: var(--engraving); background-size: 120px 28px; opacity: 0.08;
+  -webkit-mask-image: linear-gradient(to left, #000 15%, transparent 75%);
+  mask-image: linear-gradient(to left, #000 15%, transparent 75%);
+}
+/* إطار مزدوج زي حدود الورقة */
+.plate::after {
+  content: ''; position: absolute; inset: 7px; pointer-events: none;
+  border: 1px solid var(--ink-line); border-radius: calc(var(--radius-lg) - 6px);
+}
+.plate-body { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.plate-label { font-size: var(--fs-sm); color: var(--on-ink-muted); font-weight: 500; }
+.plate-figure { color: var(--on-ink); }
+.plate-figure.negative { color: var(--expense-on-ink); }
+.plate-row {
+  display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 10px;
+  font-size: var(--fs-sm); color: var(--on-ink-muted);
+}
+.plate-row > span { display: inline-flex; align-items: center; gap: 6px; }
+.plate-row b { color: var(--on-ink); font-weight: 600; }
+.plate-row svg { color: var(--gold-bright); }
+.plate-note { font-size: var(--fs-sm); color: var(--on-ink); margin-top: 4px; max-width: 52ch; }
+.plate-note.warning { color: var(--gold-bright); }
+.plate-note.over { color: var(--expense-on-ink); }
+/* خيط الأمان: الشريط المعدني المتقطّع اللي بيظهر في الورقة */
+/* أرقام فرعية تحت رقم اللوحة (التقارير) */
+.plate-stats {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;
+  margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--ink-line);
+}
+.plate-stats > div { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.plate-stats .plate-label { display: inline-flex; align-items: center; gap: 6px; }
+.plate-stats .plate-label svg { color: var(--gold-bright); }
+.plate-stats b { font-size: var(--fs-xl); font-weight: 650; color: var(--on-ink); align-self: flex-start; }
+.plate-stats .change { font-size: var(--fs-xs); color: var(--on-ink-muted); }
+@media (max-width: 640px) {
+  .plate-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .plate-stats > div:last-child { grid-column: 1 / -1; }
+  .plate-stats b { font-size: var(--fs-lg); }
+}
+.plate-thread {
+  align-self: stretch; width: 3px; margin-block: -26px; opacity: 0.75;
+  background: repeating-linear-gradient(to bottom, var(--gold-bright) 0 11px, transparent 11px 19px);
+}
+.plate-aside { display: flex; align-items: center; gap: 18px; }
+.plate .btn.secondary { background: rgb(255 255 255 / 8%); border-color: var(--ink-line); color: var(--on-ink); }
+.plate .btn.secondary:hover:not(:disabled) { background: rgb(255 255 255 / 14%); }
+.plate .progress { background: rgb(255 255 255 / 12%); }
+.plate .progress .marker { background: var(--on-ink); opacity: 0.8; }
+
+@media (max-width: 760px) {
+  .plate { grid-template-columns: minmax(0, 1fr) auto; padding: 20px; gap: 0 14px; }
+  .plate::after { inset: 5px; }
+  .plate-thread { display: none; }
+  .plate-row { gap: 4px 16px; }
+}
+
+/* المبلغ بشكل «فئة الورقة»: الجنيهات كبيرة، والقروش والعملة صغيرين */
+.figure {
+  display: inline-flex; align-items: baseline; gap: 0.3em;
+  direction: rtl; unicode-bidi: isolate; line-height: 1;
+}
+.figure .amount {
+  direction: ltr; unicode-bidi: isolate; font-variant-numeric: tabular-nums; font-feature-settings: 'tnum' 1;
+  font-weight: 650; letter-spacing: -0.02em;
+}
+.figure .frac { font-size: 0.42em; font-weight: 500; letter-spacing: 0; opacity: 0.8; margin-inline-start: 0.04em; }
+.figure .cur { font-size: 0.34em; font-weight: 500; opacity: 0.8; }
+.figure.xl { font-size: var(--fs-4xl); }
+.figure.lg { font-size: var(--fs-2xl); }
+.figure.md { font-size: var(--fs-xl); }
+@media (max-width: 640px) {
+  .figure.xl { font-size: clamp(2rem, 11vw, var(--fs-3xl)); }
+  .figure.lg { font-size: clamp(1.25rem, 6.4vw, var(--fs-2xl)); }
+}
+
+/* ── الوردة (جيلوش من بيانات الشهر) ───────────────────────── */
+.rosette { position: relative; width: var(--rosette, 188px); aspect-ratio: 1; flex: none; }
+.rosette svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.rosette path { fill: none; stroke-width: var(--line, 1); }
+.rosette .time-base { stroke: var(--on-ink); opacity: 0.16; }
+.rosette .time-done { stroke: var(--on-ink); opacity: 0.9; }
+.rosette .spend-base { stroke: var(--gold-bright); opacity: 0.2; }
+.rosette .spend-done { stroke: var(--gold-bright); }
+.rosette.over .spend-done { stroke: var(--expense-on-ink); }
+.rosette .today { stroke: var(--gold-bright); stroke-width: calc(var(--line, 1) * 2.4); stroke-linecap: round; }
+/* اللحظة المتحرّكة الوحيدة: الخطوط بتتنقش مرّة لما الوردة تظهر. الحالة الأصلية ظاهرة،
+   والحركة بتبدأ من المخفي، فلو الحركة متوقّفة الرسم بيفضل موجود */
+.rosette .done-line { stroke-dasharray: 1; stroke-dashoffset: 0; animation: engrave 1.4s var(--ease) backwards; }
+.rosette .spend-done.done-line { animation-delay: 0.18s; }
+@keyframes engrave { from { stroke-dashoffset: 1; } }
+.rosette-center {
+  position: absolute; inset: 0; display: grid; place-content: center; text-align: center;
+  line-height: 1.15; pointer-events: none;
+}
+.rosette-center .num { font-size: var(--fs-2xl); font-weight: 650; color: var(--on-ink); }
+.rosette-center small { font-size: var(--fs-xs); color: var(--on-ink-muted); }
+/* مفتاح الوردة جوّه الجملة: حلقة صغيرة بلون الحلقة اللي بتتكلّم عنها */
+.swatch { display: inline-block; width: 11px; height: 11px; border-radius: 50%; border: 2px solid; vertical-align: -1px; margin-inline-end: 6px; }
+@media (max-width: 760px) {
+  /* الوردة أصغر، فالخط أتخن بنفس النسبة عشان يفضل باين */
+  .rosette { --rosette: 116px; --line: 1.6; align-self: start; }
+  .rosette-center .num { font-size: var(--fs-lg); }
+  .rosette-center small { font-size: 0.66rem; }
+}
 
 /* ── الشارات ─────────────────────────────────────────────── */
 .badge {
   display: inline-flex; align-items: center; gap: 5px;
-  padding: 2px 9px; border-radius: 99px; font-size: 0.76rem; font-weight: 500;
+  padding: 2px 9px; border-radius: 99px; font-size: var(--fs-xs); font-weight: 500;
   background: var(--surface-3); color: var(--text-muted); white-space: nowrap;
 }
 .badge.primary { background: var(--primary-soft); color: var(--primary); }
@@ -153,43 +297,54 @@
 .badge.warning { background: var(--warning-soft); color: var(--warning); }
 .badge.danger { background: var(--danger-soft); color: var(--danger); }
 
-/* أيقونة التصنيف: إيموجي داخل دائرة بلون التصنيف الخفيف */
+/* أيقونة التصنيف: إيموجي التصنيف (اختيار المستخدم) على مربّع بلونه الخفيف */
 .cat-icon {
   width: 40px; height: 40px; flex: none; border-radius: 12px;
   display: grid; place-items: center; font-size: 1.2rem; line-height: 1;
-  background: color-mix(in srgb, var(--cat, var(--text-faint)) 14%, var(--surface));
+  background: color-mix(in srgb, var(--cat, var(--text-faint)) 15%, var(--surface));
   color: var(--cat, var(--text-muted));
 }
 .cat-icon.sm { width: 32px; height: 32px; border-radius: 10px; font-size: 1rem; }
 .dot { width: 10px; height: 10px; border-radius: 50%; flex: none; background: var(--cat, var(--text-faint)); }
 
+/* علامة الحساب الثابتة: مربّع بلون الحساب وأيقونة نوعه — نفس الشكل في كل مكان */
+.acc-mark {
+  width: 40px; height: 40px; flex: none; border-radius: 12px; display: grid; place-items: center;
+  background: var(--acc, #0e6a4c); color: #fff;
+}
+.acc-mark.sm { width: 32px; height: 32px; border-radius: 10px; }
+
 .avatar {
   display: inline-grid; place-items: center; flex: none; border-radius: 50%;
-  background: var(--primary-soft); color: var(--primary); font-weight: 600;
+  background: var(--gold-soft); color: var(--gold-text); font-weight: 650;
 }
 
-/* ── شريط التقدّم (الميزانيات والملخّص) ───────────────────── */
+/* ── شريط التقدّم (الميزانيات والأقساط) ──────────────────── */
 .progress {
-  position: relative; height: 10px; border-radius: 99px;
+  position: relative; height: 8px; border-radius: 99px;
   background: var(--surface-3); overflow: hidden;
 }
 .progress > span {
   position: absolute; inset-block: 0; inset-inline-start: 0;
   border-radius: inherit; background: var(--primary);
-  transition: width 0.5s var(--ease);
+  transition: width 0.6s var(--ease);
 }
 .progress.ok > span { background: var(--income); }
 .progress.warning > span { background: var(--warning); }
-.progress.over > span { background: var(--expense); }
+/* عدّى الحدّ: لون ومعاه تخطيط مائل، عشان الحالة متتقريش باللون بس */
+.progress.over > span {
+  background: var(--expense)
+    repeating-linear-gradient(-45deg, rgb(255 255 255 / 28%) 0 4px, transparent 4px 8px);
+}
 .progress .marker {
-  position: absolute; inset-block: -2px; width: 2px; background: var(--text-faint); opacity: 0.6;
+  position: absolute; inset-block: 0; width: 2px; background: var(--text); opacity: 0.45;
 }
 
 /* ── التنبيهات والحالات ──────────────────────────────────── */
 .notice {
   display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px;
   border-radius: var(--radius-sm); background: var(--surface-3); color: var(--text);
-  font-size: 0.92rem;
+  font-size: var(--fs-sm);
 }
 .notice svg { flex: none; margin-top: 2px; }
 .notice.info { background: var(--transfer-soft); color: var(--transfer); }
@@ -199,21 +354,26 @@
 
 .empty {
   display: flex; flex-direction: column; align-items: center; text-align: center;
-  gap: 10px; padding: 40px 20px; color: var(--text-muted);
+  gap: 8px; padding: 44px 24px; color: var(--text-muted);
 }
-.empty .empty-icon {
-  width: 64px; height: 64px; border-radius: 20px; display: grid; place-items: center;
-  background: var(--primary-soft); color: var(--primary); font-size: 1.8rem;
+/* شارة الحالة الفاضية: أيقونة جوّه حلقة منقوشة زي ختم الورقة */
+.empty-emblem {
+  position: relative; width: 76px; height: 76px; display: grid; place-items: center;
+  color: var(--primary); margin-bottom: 6px;
 }
-.empty h3 { color: var(--text); font-size: 1.05rem; }
-.empty p { max-width: 420px; font-size: 0.92rem; }
+.empty-emblem svg.ring { position: absolute; inset: 0; width: 100%; height: 100%; color: var(--primary); opacity: 0.45; }
+.empty-emblem.danger { color: var(--danger); }
+.empty-emblem.danger svg.ring { color: var(--danger); }
+.empty h3 { color: var(--text); font-size: var(--fs-lg); }
+.empty p { max-width: 44ch; font-size: var(--fs-sm); }
+.empty .actions { margin-top: 8px; }
 
 .loading { display: grid; place-items: center; min-height: 40vh; color: var(--primary); }
 
 .skeleton {
   border-radius: var(--radius-sm);
   background: linear-gradient(90deg, var(--surface-3) 25%, var(--surface-2) 50%, var(--surface-3) 75%);
-  background-size: 200% 100%; animation: shimmer 1.2s infinite;
+  background-size: 200% 100%; animation: shimmer 1.4s infinite;
 }
 @keyframes shimmer { to { background-position: -200% 0; } }
 
@@ -222,78 +382,91 @@
 .tab {
   border: 0; background: transparent; padding: 10px 14px; cursor: pointer;
   color: var(--text-muted); font-weight: 500; border-bottom: 2px solid transparent; margin-bottom: -1px;
-  display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
+  display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
+  transition: color 0.15s var(--ease), border-color 0.15s var(--ease);
 }
-.tab[aria-selected='true'] { color: var(--primary); border-bottom-color: var(--primary); }
-.tab .count { font-size: 0.75rem; background: var(--surface-3); border-radius: 99px; padding: 0 7px; }
+.tab:hover { color: var(--text); }
+.tab[aria-selected='true'] { color: var(--text); font-weight: 600; border-bottom-color: var(--primary); }
+.tab .count { font-size: var(--fs-xs); background: var(--surface-3); color: var(--text-muted); border-radius: 99px; padding: 0 8px; }
+.tab[aria-selected='true'] .count { background: var(--primary-soft); color: var(--primary); }
 
 /* ── القوائم (صفوف العمليات والحسابات) ───────────────────── */
 .list { display: flex; flex-direction: column; }
 .list-item {
-  display: flex; align-items: center; gap: 12px; padding: 12px 18px;
+  display: flex; align-items: center; gap: 12px; padding: 12px 20px; min-height: 60px;
   border-bottom: 1px solid var(--border); min-width: 0;
 }
 .list-item:last-child { border-bottom: 0; }
 button.list-item, a.list-item {
   width: 100%; background: transparent; border-inline: 0; border-top: 0; text-align: start;
-  cursor: pointer; color: inherit; text-decoration: none;
+  cursor: pointer; color: inherit; text-decoration: none; transition: background-color 0.12s var(--ease);
 }
 button.list-item:hover, a.list-item:hover { background: var(--surface-2); }
+button.list-item:active, a.list-item:active { background: var(--surface-3); }
 .list-item .title { font-weight: 500; }
-.list-item .meta { font-size: 0.82rem; color: var(--text-faint); }
+.list-item .meta { font-size: var(--fs-xs); color: var(--text-faint); }
+/* عنوان اليوم يلزق تحت الشريط العلوي وإنت بتنزل في القائمة (في الصفحة بس، مش في النوافذ) */
+.page .list-group-head { position: sticky; top: var(--topbar-h); z-index: 1; }
 .list-group-head {
-  display: flex; justify-content: space-between; padding: 8px 18px;
+  display: flex; justify-content: space-between; align-items: baseline; padding: 8px 20px;
   background: var(--surface-2); border-bottom: 1px solid var(--border);
-  font-size: 0.82rem; color: var(--text-muted); font-weight: 500;
+  font-size: var(--fs-xs); color: var(--text-muted); font-weight: 600;
 }
 
-.pagination { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 18px; font-size: 0.88rem; color: var(--text-muted); }
+.pagination { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 20px; border-top: 1px solid var(--border); font-size: var(--fs-sm); color: var(--text-muted); }
 
 /* ── النوافذ ─────────────────────────────────────────────── */
 .overlay {
   position: fixed; inset: 0; z-index: 50; display: grid; place-items: center;
-  padding: 16px; background: rgb(10 16 14 / 45%); animation: fade-in 0.15s var(--ease);
+  padding: 16px; background: rgb(6 20 15 / 50%); animation: fade-in 0.18s var(--ease);
 }
 .modal {
-  width: min(520px, 100%); max-height: calc(100dvh - 32px); display: flex; flex-direction: column;
+  width: min(540px, 100%); max-height: calc(100dvh - 32px); display: flex; flex-direction: column;
   background: var(--surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg);
-  animation: pop-in 0.18s var(--ease);
+  animation: pop-in 0.26s var(--ease);
 }
 .modal.narrow { width: min(420px, 100%); }
 .modal.wide { width: min(720px, 100%); }
-.modal-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px 8px; }
-.modal-head h2 { font-size: 1.1rem; }
-.modal-body { padding: 8px 20px 18px; overflow-y: auto; }
-.modal-foot { display: flex; justify-content: flex-end; gap: 10px; padding: 14px 20px; border-top: 1px solid var(--border); }
+.modal-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 22px 10px; }
+.modal-head h2 { font-size: var(--fs-xl); }
+.modal-body { padding: 8px 22px 20px; overflow-y: auto; }
+.modal-foot { display: flex; justify-content: flex-end; gap: 10px; padding: 14px 22px; border-top: 1px solid var(--border); background: var(--surface-2); border-end-start-radius: var(--radius-lg); border-end-end-radius: var(--radius-lg); }
 @keyframes fade-in { from { opacity: 0; } }
-@keyframes pop-in { from { opacity: 0; transform: translateY(8px) scale(0.98); } }
+@keyframes pop-in { from { opacity: 0; transform: translateY(10px) scale(0.98); } }
 
 @media (max-width: 640px) {
   .overlay { place-items: end stretch; padding: 0; }
   .modal, .modal.narrow, .modal.wide {
-    width: 100%; max-height: 92dvh; border-end-start-radius: 0; border-end-end-radius: 0;
-    animation: sheet-up 0.22s var(--ease);
+    width: 100%; max-height: 94dvh; border-end-start-radius: 0; border-end-end-radius: 0;
+    animation: sheet-up 0.32s var(--ease);
   }
-  .modal-foot { padding-bottom: max(14px, env(safe-area-inset-bottom)); }
+  /* مقبض الورقة السفلية */
+  .modal::before {
+    content: ''; align-self: center; width: 40px; height: 4px; border-radius: 99px;
+    background: var(--border-strong); margin-top: 8px;
+  }
+  .modal-head { padding-top: 10px; }
+  .modal-foot { padding-bottom: max(14px, env(safe-area-inset-bottom)); border-radius: 0; }
+  .modal-foot .btn { flex: 1; }
 }
-@keyframes sheet-up { from { transform: translateY(40px); opacity: 0.6; } }
+@keyframes sheet-up { from { transform: translateY(100%); } }
 
-.drawer-backdrop { position: fixed; inset: 0; z-index: 40; background: rgb(10 16 14 / 45%); animation: fade-in 0.15s; }
+.drawer-backdrop { position: fixed; inset: 0; z-index: 40; background: rgb(6 20 15 / 50%); animation: fade-in 0.18s; }
 .drawer {
-  position: fixed; inset-block: 0; inset-inline-start: 0; z-index: 41; width: min(290px, 86vw);
-  background: var(--surface); box-shadow: var(--shadow-lg); animation: slide-in 0.2s var(--ease);
+  position: fixed; inset-block: 0; inset-inline-start: 0; z-index: 41; width: min(300px, 86vw);
+  background: var(--ink); box-shadow: var(--shadow-lg); animation: slide-in 0.3s var(--ease);
 }
-@keyframes slide-in { from { transform: translateX(30px); opacity: 0; } }
+@keyframes slide-in { from { transform: translateX(100%); } }
 
 .dropdown { position: relative; }
 .menu {
-  position: absolute; z-index: 30; top: calc(100% + 6px); inset-inline-end: 0; min-width: 180px;
+  position: absolute; z-index: 30; top: calc(100% + 6px); inset-inline-end: 0; min-width: 190px;
   padding: 6px; background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); box-shadow: var(--shadow-lg); animation: pop-in 0.12s var(--ease);
+  border-radius: var(--radius); box-shadow: var(--shadow-lg); animation: pop-in 0.16s var(--ease);
 }
 .menu button {
-  display: flex; align-items: center; gap: 10px; width: 100%; padding: 8px 10px;
-  border: 0; background: transparent; border-radius: 6px; cursor: pointer; text-align: start; font-size: 0.92rem;
+  display: flex; align-items: center; gap: 10px; width: 100%; padding: 9px 10px; min-height: 40px;
+  border: 0; background: transparent; border-radius: 8px; cursor: pointer; text-align: start; font-size: var(--fs-sm);
   white-space: nowrap;
 }
 .menu button:hover { background: var(--surface-3); }
@@ -306,16 +479,18 @@ button.list-item:hover, a.list-item:hover { background: var(--surface-2); }
 }
 .toast {
   display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px;
-  border-radius: var(--radius); background: var(--text); color: var(--surface);
-  box-shadow: var(--shadow-lg); animation: pop-in 0.18s var(--ease); font-size: 0.92rem;
+  border-radius: var(--radius); background: var(--ink); color: var(--on-ink);
+  box-shadow: var(--shadow-lg); animation: toast-in 0.32s var(--ease); font-size: var(--fs-sm);
 }
+.toast > svg { margin-top: 2px; flex: none; }
+.toast.success > svg { color: var(--gold-bright); }
 .toast.error { background: var(--danger); color: #fff; }
-.toast.success svg { color: var(--primary-soft); }
+@keyframes toast-in { from { opacity: 0; transform: translateY(14px); } }
 
 /* كلمة المرور المؤقتة: تُعرض مرّة واحدة بخط واضح */
 .secret {
   display: flex; align-items: center; justify-content: space-between; gap: 10px;
   padding: 12px 14px; border-radius: var(--radius-sm);
   background: var(--surface-3); border: 1px dashed var(--border-strong);
-  font-size: 1.15rem; font-weight: 600; letter-spacing: 0.04em;
+  font-size: var(--fs-xl); font-weight: 600; letter-spacing: 0.04em;
 }

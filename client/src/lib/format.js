@@ -36,6 +36,23 @@ export function formatMoney(minor, currency = 'EGP', { compact = false } = {}) {
   return moneyFormat(currency, whole).format(minor / 100).replace(/‎/g, '');
 }
 
+/**
+ * المبلغ مفكوك لأجزائه عشان يتعرض زي «فئة الورقة»: الجنيهات كبيرة والقروش والعملة صغيرين.
+ * -125050 ← { sign: '-', whole: '1,250', fraction: '.50', symbol: 'ج.م.' }
+ * compact: بلا قروش لو المبلغ صحيح.
+ */
+export function moneyParts(minor, currency = 'EGP', { compact = false } = {}) {
+  const parts = moneyFormat(currency, compact && minor % 100 === 0).formatToParts(minor / 100);
+  const result = { sign: '', whole: '', fraction: '', symbol: currency };
+  for (const part of parts) {
+    if (part.type === 'minusSign') result.sign = '-';
+    else if (part.type === 'integer' || part.type === 'group') result.whole += part.value;
+    else if (part.type === 'decimal' || part.type === 'fraction') result.fraction += part.value;
+    else if (part.type === 'currency') result.symbol = part.value;
+  }
+  return result;
+}
+
 /** رمز العملة بالعربي لحقول الإدخال: EGP ← «ج.م.» */
 export function currencySymbol(currency = 'EGP') {
   return moneyFormat(currency, true).formatToParts(0).find((part) => part.type === 'currency')?.value ?? currency;

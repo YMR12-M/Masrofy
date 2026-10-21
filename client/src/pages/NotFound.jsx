@@ -7,7 +7,7 @@ export default function NotFound() {
   return (
     <div className="page">
       <Card>
-        <EmptyState emoji="🧭" title="الصفحة دي مش موجودة" description="يمكن الرابط اتغيّر أو اتكتب غلط." action={<Link to="/" className="btn primary">للرئيسية</Link>} />
+        <EmptyState icon="compass" title="الصفحة دي مش موجودة" description="يمكن الرابط اتغيّر أو اتكتب غلط." action={<Link to="/" className="btn primary">للرئيسية</Link>} />
       </Card>
     </div>
   );

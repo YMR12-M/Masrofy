@@ -89,7 +89,7 @@ export default function Transactions() {
         actions={<Button icon="download" onClick={exportCsv} loading={exporting}>تصدير Excel</Button>}
       />
 
-      <div className="row wrap between">
+      <div className="toolbar">
         <div className="row wrap">
           {month === 'all'
             ? <Button onClick={() => update({ month: null })} icon="calendar">كل الفترات</Button>
@@ -138,8 +138,8 @@ export default function Transactions() {
         {list.isError && <ErrorState error={list.error} onRetry={list.refetch} />}
         {list.data?.rows.length === 0 && (
           filtered
-            ? <EmptyState emoji="🔍" title="مفيش نتائج" description="جرّب تشيل فلتر أو تغيّر الشهر." />
-            : <EmptyState emoji="🧾" title="مفيش عمليات في الفترة دي" action={<Button variant="primary" icon="plus" onClick={() => openTransaction()}>سجّل عملية</Button>} />
+            ? <EmptyState icon="search" title="مفيش نتائج" description="جرّب تشيل فلتر أو تغيّر الشهر." />
+            : <EmptyState icon="receipt" title="مفيش عمليات في الفترة دي" action={<Button variant="primary" icon="plus" onClick={() => openTransaction()}>سجّل عملية</Button>} />
         )}
         {list.data?.rows.length > 0 && (
           <>

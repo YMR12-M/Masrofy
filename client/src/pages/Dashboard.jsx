@@ -1,56 +1,87 @@
 /**
- * الرئيسية: صورة الشهر المالي الحالي في نظرة واحدة —
- * دخل/مصروف/متبقّي، ووتيرة الصرف مقارنةً بالوقت، وآخر العمليات،
- * والميزانيات الأقرب للحدّ، وأرصدة الحسابات.
+ * الرئيسية: صورة الشهر المالي الحالي في نظرة واحدة. لوحة الشهر (المتبقّي،
+ * الدخل والمصروف، ووردة الوتيرة)، ثم آخر العمليات، والميزانيات الأقرب
+ * للحدّ، وأرصدة الحسابات.
  */
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '../context/AuthContext.jsx';
 import { api } from '../lib/api.js';
-import { firstName, formatBps, formatMoney, formatMonth } from '../lib/format.js';
+import { firstName, formatBps, formatDayMonth, formatMoney, formatMonth } from '../lib/format.js';
 import { useDocumentTitle } from '../lib/hooks.js';
-import { currentMonth, todayIn } from '../lib/period.js';
-import { ACCOUNT_TYPE, BUDGET_STATUS } from '../lib/constants.js';
+import { currentMonth, periodRange, todayIn } from '../lib/period.js';
+import { BUDGET_STATUS } from '../lib/constants.js';
 import { Icon } from '../lib/icons.jsx';
 import { useAccounts } from '../lib/queries.js';
 import TransactionList from '../components/transactions/TransactionList.jsx';
 import { useQuickAdd } from '../components/transactions/QuickAdd.jsx';
 import {
-  Badge, Button, Card, CategoryIcon, EmptyState, ErrorState, ListSkeleton, Money, PageHead, Progress, Skeleton,
+  AccountMark, Badge, Button, Card, CardLink, CategoryIcon, EmptyState, ErrorState, ListSkeleton, Money, MoneyFigure,
+  Plate, Progress, Rosette, Skeleton,
 } from '../components/ui/index.js';
 
-function MonthHero({ summary, currency }) {
+/** «يوم» بعد الرقم: 1 يوم، 2 يومين، 3 لـ 10 أيام، وبعدها يوم */
+const dayUnit = (count) => (count === 2 ? 'يومين' : count >= 3 && count <= 10 ? 'أيام' : 'يوم');
+
+/** خطّ صغير بلون حلقة الوردة: المفتاح جوّه الجملة نفسها */
+const Swatch = ({ color }) => <i className="swatch" style={{ borderColor: color }} aria-hidden="true" />;
+
+/**
+ * لوحة الشهر: المتبقّي بشكل فئة الورقة، والدخل والمصروف، والوردة اللي بتقارن
+ * المصروف من الدخل (دهبي) باللي عدّى من الشهر (أبيض).
+ */
+function MonthPlate({ summary, currency }) {
   const { totals, period } = summary;
-  const spentBps = totals.income_minor > 0 ? Math.round((totals.expense_minor * 10_000) / totals.income_minor) : 0;
-  const timeBps = Math.round((period.elapsed_days * 10_000) / period.days);
-  const status = spentBps > 10_000 ? 'over' : spentBps > timeBps + 1000 ? 'warning' : 'ok';
+  const spentBps = totals.income_minor > 0 ? Math.round((totals.expense_minor * 10_000) / totals.income_minor) : null;
+  const timeBps = period.is_current ? Math.round((period.elapsed_days * 10_000) / period.days) : 10_000;
+  const daysLeft = period.days - period.elapsed_days;
+  const status = spentBps === null ? '' : spentBps > 10_000 ? 'over' : spentBps > timeBps + 1000 ? 'warning' : 'ok';
+
+  let note;
+  if (spentBps === null) {
+    note = 'مفيش دخل متسجّل في الشهر ده، فمش هنقدر نقارن المصروف بيه.';
+  } else if (status === 'over') {
+    note = <>المصروف عدّى الدخل بـ <span className="num">{formatMoney(-totals.net_minor, currency, { compact: true })}</span></>;
+  } else if (period.is_current) {
+    note = (
+      <>
+        {status === 'warning' && 'بتصرف أسرع من الشهر: '}
+        <Swatch color="var(--gold-bright)" />صرفت <span className="num">{formatBps(spentBps)}</span> من الدخل،{' '}
+        <Swatch color="var(--on-ink)" />وعدّى <span className="num">{formatBps(timeBps)}</span> من أيام الشهر
+      </>
+    );
+  } else {
+    note = <><Swatch color="var(--gold-bright)" />صرفت <span className="num">{formatBps(spentBps)}</span> من دخل الشهر</>;
+  }
+
+  const label = spentBps === null
+    ? `مضى ${formatBps(timeBps)} من الشهر، ومفيش دخل متسجّل`
+    : `صرفت ${formatBps(spentBps)} من الدخل، ومضى ${formatBps(timeBps)} من الشهر`;
 
   return (
-    <section className="card month-hero" aria-label="ملخّص الشهر">
-      <div className="figures">
-        <div className="figure">
-          <span className="label"><Icon name="arrow-down" size={16} style={{ color: 'var(--income)' }} />الدخل</span>
-          <span className="value"><Money minor={totals.income_minor} currency={currency} compact /></span>
-        </div>
-        <div className="figure">
-          <span className="label"><Icon name="arrow-up" size={16} style={{ color: 'var(--expense)' }} />المصروف</span>
-          <span className="value"><Money minor={totals.expense_minor} currency={currency} compact /></span>
-        </div>
-        <div className="figure net">
-          <span className="label">المتبقّي من الشهر</span>
-          <span className="value"><Money minor={totals.net_minor} currency={currency} tone="auto" compact /></span>
-        </div>
-      </div>
-      {totals.income_minor > 0 && (
-        <div className="stack sm">
-          <Progress valueBps={spentBps} status={status} markerBps={period.is_current ? timeBps : undefined} label="المصروف من الدخل" />
-          <div className="pace">
-            <span>صرفت <span className="num">{formatBps(spentBps)}</span> من دخل الشهر</span>
-            {period.is_current && <span>مضى <span className="num">{period.elapsed_days}</span> يوم من <span className="num">{period.days}</span></span>}
-          </div>
-        </div>
+    <Plate
+      aria-label="ملخّص الشهر"
+      aside={(
+        <Rosette timeBps={timeBps} spendBps={spentBps} label={label}>
+          {period.is_current
+            ? <><small>فاضل</small><span className="num">{daysLeft}</span><small>{dayUnit(daysLeft)}</small></>
+            : <><span className="num">{spentBps === null ? '0%' : formatBps(spentBps)}</span><small>من الدخل</small></>}
+        </Rosette>
       )}
-    </section>
+    >
+      <span className="plate-label">{period.is_current ? 'المتبقّي من الشهر' : 'صافي الشهر'}</span>
+      <MoneyFigure
+        className={`plate-figure ${totals.net_minor < 0 ? 'negative' : ''}`}
+        minor={totals.net_minor}
+        currency={currency}
+        compact
+      />
+      <div className="plate-row">
+        <span><Icon name="arrow-down" size={16} />دخل <b className="num">{formatMoney(totals.income_minor, currency, { compact: true })}</b></span>
+        <span><Icon name="arrow-up" size={16} />مصروف <b className="num">{formatMoney(totals.expense_minor, currency, { compact: true })}</b></span>
+      </div>
+      <p className={`plate-note ${status}`}>{note}</p>
+    </Plate>
   );
 }
 
@@ -59,10 +90,10 @@ function BudgetsCard({ month, currency }) {
   const top = [...(budgets.data?.budgets ?? [])].sort((a, b) => b.used_bps - a.used_bps).slice(0, 4);
 
   return (
-    <Card title="الميزانيات" actions={<Link to="/budgets" className="small">الكل</Link>} flush>
+    <Card title="الميزانيات" actions={<CardLink to="/budgets" />} flush>
       {budgets.isLoading && <div className="card-body"><Skeleton height={60} /></div>}
       {budgets.isSuccess && top.length === 0 && (
-        <EmptyState emoji="🎯" title="مفيش ميزانيات لسه" description="حدّد سقف شهري للأكل أو المواصلات وهننبّهك قبل ما تعدّيه." action={<Link to="/budgets" className="btn secondary sm">ضيف ميزانية</Link>} />
+        <EmptyState icon="target" title="مفيش ميزانيات لسه" description="حدّد سقف شهري للأكل أو المواصلات وهننبّهك قبل ما تعدّيه." action={<Link to="/budgets" className="btn secondary sm">ضيف ميزانية</Link>} />
       )}
       {top.map((budget) => (
         <div key={budget.id} className="budget-row">
@@ -87,14 +118,15 @@ function AccountsCard({ accounts, currency }) {
   const counted = accounts.filter((account) => account.include_in_net_worth);
   const total = counted.reduce((sum, account) => sum + account.balance_minor, 0);
   return (
-    <Card title="الحسابات" actions={<Link to="/accounts" className="small">الكل</Link>} flush footer={(
+    <Card title="الحسابات" actions={<CardLink to="/accounts" />} flush footer={(
       <div className="row between"><span className="muted small">صافي الثروة</span><Money minor={total} currency={currency} tone="auto" className="bold" /></div>
     )}>
       <div className="list">
         {accounts.slice(0, 6).map((account) => (
           <Link key={account.id} className="list-item" to={`/transactions?account_id=${account.id}&month=all`}>
-            <span className="cat-icon sm" style={{ '--cat': account.color }}><Icon name={ACCOUNT_TYPE[account.type]?.icon ?? 'wallet'} size={16} /></span>
-            <span className="grow truncate">{account.name}{!account.is_shared && <span className="xsmall faint"> · خاص</span>}</span>
+            <AccountMark account={account} size="sm" />
+            <span className="grow truncate">{account.name}</span>
+            {!account.is_shared && <Icon name="lock" size={14} className="faint" />}
             <Money minor={account.balance_minor} currency={currency} tone="auto" className="bold small" />
           </Link>
         ))}
@@ -125,24 +157,23 @@ export default function Dashboard() {
   });
 
   const noAccounts = accounts.isSuccess && accounts.data.length === 0;
-  const daysLeft = summary.data?.period.is_current ? summary.data.period.days - summary.data.period.elapsed_days : null;
+  const startDay = user.household.month_start_day;
+  const range = periodRange(month, startDay);
 
   return (
     <div className="page">
-      <PageHead
-        title={`أهلًا ${firstName(user.full_name)} 👋`}
-        description={(
-          <>
-            {formatMonth(month)}
-            {daysLeft !== null && <> · فاضل <span className="num">{daysLeft}</span> يوم على آخر الشهر</>}
-          </>
-        )}
-      />
+      <header className="greeting">
+        <h1>أهلًا {firstName(user.full_name)}</h1>
+        <p>
+          {formatMonth(month)}
+          {startDay !== 1 && <>، من <span className="num">{formatDayMonth(range.from)}</span> لـ <span className="num">{formatDayMonth(range.to)}</span></>}
+        </p>
+      </header>
 
       {noAccounts ? (
         <Card>
           <EmptyState
-            emoji="👛"
+            icon="wallet"
             title="ابدأ بحساباتك"
             description="ضيف الأماكن اللي فلوسك فيها: الكاش اللي معاك، حسابك في البنك، فودافون كاش… وبعدها سجّل أول مصروف."
             action={<Link to="/accounts?new=1" className="btn primary">ضيف أول حساب</Link>}
@@ -150,21 +181,21 @@ export default function Dashboard() {
         </Card>
       ) : (
         <>
-          {summary.isLoading && <Skeleton height={150} style={{ borderRadius: 12 }} />}
-          {summary.isError && <ErrorState error={summary.error} onRetry={summary.refetch} />}
-          {summary.data && <MonthHero summary={summary.data} currency={currency} />}
+          {summary.isLoading && <Skeleton height={236} style={{ borderRadius: 20 }} />}
+          {summary.isError && <Card><ErrorState error={summary.error} onRetry={summary.refetch} /></Card>}
+          {summary.data && <MonthPlate summary={summary.data} currency={currency} />}
 
           <div className="grid split">
             <Card
               title="آخر العمليات"
-              actions={<Link to="/transactions" className="small">كل العمليات</Link>}
+              actions={<CardLink to="/transactions">كل العمليات</CardLink>}
               flush
             >
               {recent.isLoading && <ListSkeleton rows={4} />}
               {recent.isError && <ErrorState error={recent.error} onRetry={recent.refetch} />}
               {recent.data?.rows.length === 0 && (
                 <EmptyState
-                  emoji="🧾"
+                  icon="receipt"
                   title="لسه مفيش عمليات"
                   description="سجّل أي مصروف أو دخل وهيظهر هنا."
                   action={<Button variant="primary" icon="plus" onClick={() => openTransaction()}>سجّل أول عملية</Button>}

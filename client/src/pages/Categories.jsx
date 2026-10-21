@@ -88,7 +88,7 @@ export default function Categories() {
     <div className="page">
       <PageHead
         title="التصنيفات"
-        description="رتّب مصاريفك ودخلك على كيفك — التصنيف الرئيسي بيجمع فروعه في التقارير والميزانيات"
+        description="رتّب مصاريفك ودخلك على كيفك. التصنيف الرئيسي بيجمع فروعه في التقارير والميزانيات"
         actions={<Button variant="primary" icon="plus" onClick={() => setForm({})}>تصنيف جديد</Button>}
       />
       <Tabs value={kind} onChange={setKind} items={[{ id: 'expense', label: 'المصروف', count: counts.expense }, { id: 'income', label: 'الدخل', count: counts.income }]} />
@@ -96,7 +96,7 @@ export default function Categories() {
       <Card flush>
         {categories.isLoading && <ListSkeleton rows={6} />}
         {categories.isError && <ErrorState error={categories.error} onRetry={categories.refetch} />}
-        {categories.isSuccess && tree.length === 0 && <EmptyState emoji="🏷️" title="مفيش تصنيفات" action={<Button variant="primary" icon="plus" onClick={() => setForm({})}>ضيف تصنيف</Button>} />}
+        {categories.isSuccess && tree.length === 0 && <EmptyState icon="tag" title="مفيش تصنيفات" action={<Button variant="primary" icon="plus" onClick={() => setForm({})}>ضيف تصنيف</Button>} />}
         <div className="list">
           {tree.map((parent) => (
             <div key={parent.id}>

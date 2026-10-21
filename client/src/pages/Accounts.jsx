@@ -9,12 +9,14 @@ import { useToast } from '../context/ToastContext.jsx';
 import { api } from '../lib/api.js';
 import { useDocumentTitle } from '../lib/hooks.js';
 import { ACCOUNT_TYPE } from '../lib/constants.js';
+import { formatMoney } from '../lib/format.js';
 import { Icon } from '../lib/icons.jsx';
 import { useAccounts, useRefreshMoney } from '../lib/queries.js';
 import AccountForm from '../components/accounts/AccountForm.jsx';
 import { useQuickAdd } from '../components/transactions/QuickAdd.jsx';
 import {
-  Badge, Button, Card, EmptyState, ErrorState, Menu, MenuItem, Money, Notice, PageHead, Skeleton, Switch, useConfirm,
+  AccountMark, Badge, Button, Card, EmptyState, ErrorState, Menu, MenuItem, MoneyFigure, Notice, PageHead, Plate, Skeleton, Switch,
+  useConfirm,
 } from '../components/ui/index.js';
 
 function AccountCard({ account, currency, onEdit }) {
@@ -58,7 +60,7 @@ function AccountCard({ account, currency, onEdit }) {
       <Link className="open-link" to={`/transactions?account_id=${account.id}&month=all`} aria-label={`عمليات ${account.name}`} />
       <div className="row between start">
         <div className="row" style={{ minWidth: 0 }}>
-          <span className="type-icon"><Icon name={type?.icon ?? 'wallet'} /></span>
+          <AccountMark account={account} />
           <div style={{ minWidth: 0 }}>
             <div className="bold truncate">{account.name}</div>
             <div className="xsmall faint truncate">{account.institution || type?.label}</div>
@@ -76,7 +78,7 @@ function AccountCard({ account, currency, onEdit }) {
         )}
       </div>
       <div>
-        <div className="balance"><Money minor={account.balance_minor} currency={currency} tone="auto" /></div>
+        <MoneyFigure className={`balance ${account.balance_minor < 0 ? 'amount-negative' : ''}`} size="lg" minor={account.balance_minor} currency={currency} compact />
         <div className="row wrap" style={{ gap: 6, marginTop: 6 }}>
           {account.is_shared ? <Badge>مشترك</Badge> : <Badge tone="primary"><Icon name="lock" size={12} /> خاص</Badge>}
           {archived && <Badge tone="warning">مؤرشف</Badge>}
@@ -88,16 +90,21 @@ function AccountCard({ account, currency, onEdit }) {
   );
 }
 
+/** صافي الثروة: لوحة الصفحة (اللي معاك ناقص اللي عليك) */
 function NetWorth({ accounts, currency }) {
   const counted = accounts.filter((account) => account.include_in_net_worth && !account.archived_at);
   const assets = counted.filter((account) => account.balance_minor > 0).reduce((sum, account) => sum + account.balance_minor, 0);
   const debts = counted.filter((account) => account.balance_minor < 0).reduce((sum, account) => sum - account.balance_minor, 0);
+  const net = assets - debts;
   return (
-    <section className="card net-worth" aria-label="صافي الثروة">
-      <div className="stat"><span className="label">اللي معاك</span><span className="value"><Money minor={assets} currency={currency} tone="income" /></span></div>
-      <div className="stat"><span className="label">اللي عليك</span><span className="value"><Money minor={debts} currency={currency} tone={debts ? 'expense' : undefined} /></span></div>
-      <div className="stat"><span className="label">صافي الثروة</span><span className="value"><Money minor={assets - debts} currency={currency} tone="auto" /></span></div>
-    </section>
+    <Plate aria-label="صافي الثروة">
+      <span className="plate-label">صافي الثروة</span>
+      <MoneyFigure className={`plate-figure ${net < 0 ? 'negative' : ''}`} minor={net} currency={currency} compact />
+      <div className="plate-row">
+        <span><Icon name="arrow-down" size={16} />اللي معاك <b className="num">{formatMoney(assets, currency)}</b></span>
+        <span><Icon name="arrow-up" size={16} />اللي عليك <b className="num">{formatMoney(debts, currency)}</b></span>
+      </div>
+    </Plate>
   );
 }
 
@@ -124,7 +131,7 @@ export default function Accounts() {
 
   const section = (title, items, hint) => items.length > 0 && (
     <section className="stack sm">
-      <div className="row between"><h2>{title}</h2>{hint && <span className="xsmall faint">{hint}</span>}</div>
+      <div className="section-head"><h2>{title}</h2>{hint && <span className="xsmall faint">{hint}</span>}</div>
       <div className="accounts-grid">
         {items.map((account) => <AccountCard key={account.id} account={account} currency={currency} onEdit={setEditing} />)}
       </div>
@@ -141,17 +148,17 @@ export default function Accounts() {
 
       {welcome && (
         <Notice tone="success" icon="check">
-          أهلًا بيك في مصروفي! جهّزنا لك تصنيفات مقترحة للمصاريف والدخل. ابدأ بإضافة حساباتك — الكاش اللي معاك وحسابك في البنك — وبعدها سجّل أول مصروف.
+          أهلًا بيك في مصروفي! جهّزنا لك تصنيفات مقترحة للمصاريف والدخل. ابدأ بإضافة حساباتك (الكاش اللي معاك وحسابك في البنك)، وبعدها سجّل أول مصروف.
         </Notice>
       )}
 
-      {accounts.isLoading && <div className="accounts-grid">{[1, 2, 3].map((key) => <Skeleton key={key} height={140} style={{ borderRadius: 12 }} />)}</div>}
+      {accounts.isLoading && <div className="accounts-grid">{[1, 2, 3].map((key) => <Skeleton key={key} height={150} style={{ borderRadius: 14 }} />)}</div>}
       {accounts.isError && <ErrorState error={accounts.error} onRetry={accounts.refetch} />}
 
       {accounts.isSuccess && list.length === 0 && (
         <Card>
           <EmptyState
-            emoji="👛"
+            icon="wallet"
             title="لسه مفيش حسابات"
             description="الحساب هو المكان اللي فيه الفلوس. ابدأ بالكاش اللي في محفظتك ورصيده النهارده."
             action={canCreate && <Button variant="primary" icon="plus" onClick={() => setParams({ new: '1' }, { replace: true })}>ضيف أول حساب</Button>}

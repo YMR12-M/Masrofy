@@ -70,7 +70,7 @@ export default function Audit() {
       <Card flush>
         {log.isLoading && <ListSkeleton rows={6} />}
         {log.isError && <ErrorState error={log.error} onRetry={log.refetch} />}
-        {log.data?.rows.length === 0 && <EmptyState emoji="📜" title="السجل فاضي" />}
+        {log.data?.rows.length === 0 && <EmptyState icon="shield" title="السجل فاضي" />}
         <div className="list">
           {(log.data?.rows ?? []).map((entry) => (
             <div key={entry.id} className="list-item">

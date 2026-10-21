@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import {
-  formatBps, formatDayHeading, formatMoney, formatSigned, inputToMinor, minorToInput,
+  formatBps, formatDayHeading, formatMoney, formatSigned, inputToMinor, minorToInput, moneyParts,
 } from './format.js';
 import { categoryTree } from './queries.js';
 
@@ -52,6 +52,12 @@ describe('عرض المبالغ', () => {
   test('النسب من basis points', () => {
     expect(formatBps(8333)).toBe('83%');
     expect(formatBps(null)).toBe('—');
+  });
+
+  test('moneyParts يفكّ المبلغ لجنيهات وقروش وعملة', () => {
+    expect(moneyParts(125050)).toEqual({ sign: '', whole: '1,250', fraction: '.50', symbol: 'ج.م.' });
+    expect(moneyParts(-300000, 'EGP', { compact: true })).toEqual({ sign: '-', whole: '3,000', fraction: '', symbol: 'ج.م.' });
+    expect(moneyParts(99, 'EGP', { compact: true }).fraction).toBe('.99');
   });
 
   test('عناوين الأيام', () => {

@@ -152,7 +152,7 @@ function TransactionFormDialog({ onClose, transaction, defaults }) {
         {readOnly && <Notice icon="lock">العملية دي على حساب مش من حقّك تسجّل عليه، فتقدر تشوفها بس.</Notice>}
         {message && <Notice tone="danger" icon="alert">{message}</Notice>}
         {!readOnly && recordable.length === 0 && accounts.isSuccess && (
-          <Notice tone="warning" icon="wallet">مفيش حساب تقدر تسجّل عليه — ضيف حساب الأول من صفحة الحسابات.</Notice>
+          <Notice tone="warning" icon="wallet">مفيش حساب تقدر تسجّل عليه. ضيف حساب الأول من صفحة الحسابات.</Notice>
         )}
 
         <fieldset disabled={readOnly} className="stack" style={{ border: 0, padding: 0, margin: 0 }}>
@@ -191,7 +191,7 @@ function TransactionFormDialog({ onClose, transaction, defaults }) {
                     {missingCategory && <option value={values.category_id}>{transaction.category_name} (مؤرشف)</option>}
                     {tree.map((parent) => (
                       <optgroup key={parent.id} label={`${parent.icon ?? ''} ${parent.name}`}>
-                        <option value={parent.id}>{parent.name}{parent.children.length ? ' — عام' : ''}</option>
+                        <option value={parent.id}>{parent.name}{parent.children.length ? ' (عام)' : ''}</option>
                         {parent.children.map((child) => <option key={child.id} value={child.id}>{child.name}</option>)}
                       </optgroup>
                     ))}

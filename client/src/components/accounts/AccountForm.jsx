@@ -111,7 +111,7 @@ function AccountDialog({ account, onClose }) {
           </Field>
         )}
         {!editing && values.scope === 'private' && (
-          <p className="xsmall muted">الحساب الخاص مش هيظهر لأي حد غيرك — ولا حتى في تقارير الأسرة.</p>
+          <p className="xsmall muted">الحساب الخاص مش هيظهر لأي حد غيرك، ولا حتى في تقارير الأسرة.</p>
         )}
 
         <div className="form-grid">

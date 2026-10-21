@@ -2,6 +2,7 @@
 import { formatMoney, formatMonth, formatDayMonth } from '../../lib/format.js';
 import { addMonths, periodRange } from '../../lib/period.js';
 import { Icon } from '../../lib/icons.jsx';
+import { Emblem } from './Plate.jsx';
 
 export function Card({ title, actions, children, flush = false, className = '', footer }) {
   return (
@@ -67,13 +68,13 @@ export function ListSkeleton({ rows = 5 }) {
   );
 }
 
-export function EmptyState({ emoji = '🗂️', title, description, action }) {
+export function EmptyState({ icon = 'info', title, description, action }) {
   return (
     <div className="empty">
-      <div className="empty-icon" aria-hidden="true">{emoji}</div>
+      <Emblem icon={icon} />
       <h3>{title}</h3>
       {description && <p>{description}</p>}
-      {action}
+      {action && <div className="actions">{action}</div>}
     </div>
   );
 }
@@ -91,10 +92,10 @@ export function Notice({ tone = '', icon = 'info', children, action }) {
 export function ErrorState({ error, onRetry }) {
   return (
     <div className="empty">
-      <div className="empty-icon" style={{ background: 'var(--danger-soft)', color: 'var(--danger)' }}><Icon name="alert" size={28} /></div>
-      <h3>تعذّر تحميل البيانات</h3>
+      <Emblem icon="alert" tone="danger" />
+      <h3>معرفناش نحمّل البيانات</h3>
       <p>{error?.message ?? 'حصل خطأ غير متوقّع'}</p>
-      {onRetry && <button type="button" className="btn secondary" onClick={onRetry}>حاول تاني</button>}
+      {onRetry && <div className="actions"><button type="button" className="btn secondary" onClick={onRetry}>حاول تاني</button></div>}
     </div>
   );
 }
@@ -173,7 +174,7 @@ export function MonthNav({ month, onChange, startDay = 1, max }) {
       </button>
       <span className="label">
         {formatMonth(month)}
-        {startDay !== 1 && <span className="range">{formatDayMonth(range.from)} – {formatDayMonth(range.to)}</span>}
+        {startDay !== 1 && <span className="range">من {formatDayMonth(range.from)} لـ {formatDayMonth(range.to)}</span>}
       </span>
       <button type="button" className="btn ghost icon sm" aria-label="الشهر التالي" disabled={Boolean(max) && month >= max} onClick={() => onChange(addMonths(month, 1))}>
         <Icon name="chevron-left" size={18} />

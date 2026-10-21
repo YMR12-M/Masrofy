@@ -14,28 +14,42 @@ import { currentMonth } from '../lib/period.js';
 import { BUDGET_STATUS } from '../lib/constants.js';
 import BudgetForm from '../components/budgets/BudgetForm.jsx';
 import {
-  Badge, Button, Card, CategoryIcon, EmptyState, ErrorState, ListSkeleton, Menu, MenuItem, MonthNav, PageHead,
-  Progress, useConfirm,
+  Badge, Button, Card, CategoryIcon, EmptyState, ErrorState, ListSkeleton, Menu, MenuItem, MoneyFigure, MonthNav, PageHead,
+  Plate, Progress, Rosette, useConfirm,
 } from '../components/ui/index.js';
 
+/** لوحة الصفحة: فاضل قد إيه من كل الميزانيات، والوردة بتقارن المصروف منها بأيام الشهر */
 function Summary({ data, currency }) {
   const { totals, period } = data;
-  const timeBps = Math.round((period.elapsed_days * 10_000) / period.days);
+  const timeBps = period.is_current ? Math.round((period.elapsed_days * 10_000) / period.days) : 10_000;
   const status = totals.used_bps > 10_000 ? 'over' : totals.used_bps > timeBps + 1000 ? 'warning' : 'ok';
+  const left = totals.remaining_minor >= 0;
+  const note = {
+    over: 'عدّيت إجمالي الميزانيات للشهر ده.',
+    warning: 'بتصرف من الميزانيات أسرع من أيام الشهر.',
+    ok: period.is_current ? 'ماشي في حدود الميزانيات.' : 'الشهر ده خلص في حدود الميزانيات.',
+  }[status];
   return (
-    <Card>
-      <div className="stack sm">
-        <div className="row between wrap">
-          <span className="muted">إجمالي الميزانيات</span>
-          <span><span className="num bold">{formatMoney(totals.spent_minor, currency)}</span> <span className="muted">من</span> <span className="num">{formatMoney(totals.amount_minor, currency)}</span></span>
-        </div>
-        <Progress valueBps={totals.used_bps} status={status} markerBps={period.is_current ? timeBps : undefined} label="إجمالي الميزانيات" />
-        <div className="row between wrap xsmall muted">
-          <span>{totals.remaining_minor >= 0 ? 'فاضل' : 'زيادة'} <span className="num bold">{formatMoney(Math.abs(totals.remaining_minor), currency)}</span></span>
-          {period.is_current && <span>مضى <span className="num">{formatBps(timeBps)}</span> من الشهر</span>}
-        </div>
+    <Plate
+      aria-label="إجمالي الميزانيات"
+      aside={(
+        <Rosette
+          timeBps={timeBps}
+          spendBps={totals.used_bps}
+          label={`اتصرف ${formatBps(totals.used_bps)} من الميزانيات، ومضى ${formatBps(timeBps)} من الشهر`}
+        >
+          <span className="num">{formatBps(totals.used_bps)}</span><small>اتصرف</small>
+        </Rosette>
+      )}
+    >
+      <span className="plate-label">{left ? 'فاضل من ميزانيات الشهر' : 'زيادة عن ميزانيات الشهر'}</span>
+      <MoneyFigure className={`plate-figure ${left ? '' : 'negative'}`} minor={Math.abs(totals.remaining_minor)} currency={currency} compact />
+      <div className="plate-row">
+        <span>اتصرف <b className="num">{formatMoney(totals.spent_minor, currency, { compact: true })}</b></span>
+        <span>من <b className="num">{formatMoney(totals.amount_minor, currency, { compact: true })}</b></span>
       </div>
-    </Card>
+      <p className={`plate-note ${status}`}>{note}</p>
+    </Plate>
   );
 }
 
@@ -82,7 +96,7 @@ export default function Budgets() {
         {budgets.isLoading && <ListSkeleton rows={4} />}
         {budgets.isSuccess && list.length === 0 && (
           <EmptyState
-            emoji="🎯"
+            icon="target"
             title="مفيش ميزانيات"
             description="حدّد مثلًا 6000 جنيه للأكل في الشهر، وهتشوف هنا اتصرف قد إيه وفاضل قد إيه."
             action={manage && <Button variant="primary" icon="plus" onClick={() => setForm({})}>ضيف أول ميزانية</Button>}

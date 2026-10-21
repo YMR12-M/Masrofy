@@ -47,7 +47,7 @@ export function useDismiss(ref, onDismiss, active = true) {
 export function useDocumentTitle(title) {
   useEffect(() => {
     const previous = document.title;
-    document.title = title ? `${title} — مصروفي` : 'مصروفي';
+    document.title = title ? `${title} | مصروفي` : 'مصروفي';
     return () => { document.title = previous; };
   }, [title]);
 }

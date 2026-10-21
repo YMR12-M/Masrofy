@@ -66,7 +66,7 @@ function HouseholdSettings() {
               </Select>
             )}
           </Field>
-          <Field label="العملة" hint="تغيير العملة بيغيّر طريقة العرض بس — مفيش تحويل للمبالغ المسجّلة" error={form.errors.currency}>
+          <Field label="العملة" hint="تغيير العملة بيغيّر طريقة العرض بس، ومفيش تحويل للمبالغ المسجّلة" error={form.errors.currency}>
             {(props) => (
               <Select {...props} value={form.values.currency} onChange={form.on('currency')}>
                 {CURRENCIES.map(([code, label]) => <option key={code} value={code}>{label} ({code})</option>)}

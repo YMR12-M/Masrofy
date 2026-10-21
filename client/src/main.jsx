@@ -3,8 +3,10 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-// خطّ واحد متغيّر الوزن يغطّي العربي واللاتيني والأرقام — بلا اتصال بالإنترنت
+// خطّ الواجهة: متغيّر الوزن ويغطّي العربي واللاتيني والأرقام، بلا اتصال بالإنترنت.
+// والرقعة للشعار المكتوب بس (الوزن العريض والحروف العربي وبس عشان الحجم).
 import '@fontsource-variable/readex-pro/index.css';
+import '@fontsource/aref-ruqaa/arabic-700.css';
 import './styles/tokens.css';
 import './styles/base.css';
 import './styles/components.css';

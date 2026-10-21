@@ -35,7 +35,7 @@ export default function ResetPassword() {
 
   return (
     <AuthLayout title="اختار كلمة مرور جديدة" footer={<p className="center small"><Link to="/login">تسجيل الدخول</Link></p>}>
-      {!token && <Notice tone="danger" icon="alert">الرابط ناقص — افتحه من البريد مرّة تانية أو اطلب رابط جديد.</Notice>}
+      {!token && <Notice tone="danger" icon="alert">الرابط ناقص. افتحه من البريد مرّة تانية أو اطلب رابط جديد.</Notice>}
       {done ? (
         <Notice tone="success" icon="check">اتغيّرت كلمة المرور. <Link to="/login">ادخل دلوقتي</Link></Notice>
       ) : token && (
